@@ -1,0 +1,10 @@
+<div class="background">
+    <div
+        class="binary"
+        *ngFor="let item of binaryElements"
+        [style.left.%]="item.left"
+        [style.animationDelay.s]="item.delay"
+        [style.animationDuration.s]="item.duration"
+        [attr.data-content]="item.binary"
+    ></div>
+</div>

@@ -1,10 +1,41 @@
 <div class="background">
     <div
-        class="binary"
-        *ngFor="let item of binaryElements"
-        [style.left.%]="item.left"
-        [style.animationDelay.s]="item.delay"
-        [style.animationDuration.s]="item.duration"
-        [attr.data-content]="item.binary"
+        *ngFor="let line of lines"
+        class="bounce-line"
+        [ngClass]="line.angle"
+        [style.top.%]="line.top"
+        [style.left.%]="line.left">
+    </div>
+  <ng-container *ngFor="let item of binaryElements">    
+    <div
+      *ngIf="item.type === '1' || item.type === '0'"
+      class="binary"
+      [style.left.%]="item.left"
+      [style.animationDelay.s]="item.delay"
+      [style.animationDuration.s]="item.duration"
+      [attr.data-content]="item.type"
     ></div>
+
+    <!-- Eighth Note SVG -->
+    <img
+      *ngIf="item.type === 'eighth'"
+      class="note-svg"
+      src="assets/eighth_note.svg"
+      alt="Eighth Note"
+      [style.left.%]="item.left"
+      [style.animationDelay.s]="item.delay"
+      [style.animationDuration.s]="item.duration"
+    />
+
+    <!-- Quarter Note SVG -->
+    <img
+      *ngIf="item.type === 'quarter'"
+      class="note-svg"
+      src="assets/quarter_note.svg"
+      alt="Quarter Note"
+      [style.left.%]="item.left"
+      [style.animationDelay.s]="item.delay"
+      [style.animationDuration.s]="item.duration"
+    />
+  </ng-container>
 </div>

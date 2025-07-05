@@ -60,71 +60,93 @@ export class Background implements OnInit, OnDestroy {
   }
 
   setupScene(): void {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const world = this.engine.world;
+  const world = this.engine.world;
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
-    const sizeRef = Math.min(width, height);
-    const radius = sizeRef * 0.3;
-    const centerX = width / 2;
-    const centerY = (height / 2) * 1.15;
+  const isSmallScreen = width < 900;
 
-    const circle = Matter.Bodies.circle(centerX, centerY, radius / 2, {
+  // ==== 👇 Layout Constants ====
+  const sizeRef = Math.min(width, height);
+  const radius = Math.max(80, Math.min(200, sizeRef * 0.25));
+  const centerX = width / 2;
+  const centerY = height * (isSmallScreen ? 0.45 : 0.5); // slight shift up on mobile
+
+  // ==== 🔴 Debug Circle ====
+  const circle = Matter.Bodies.circle(centerX, centerY, radius / 2, {
+    isStatic: true,
+    render: {
+      fillStyle: 'rgba(255,0,0,0.2)', // translucent red
+      //strokeStyle: 'red',
+      lineWidth: 2
+    }
+  });
+  this.circle = { x: centerX, y: centerY, radius: radius / 2 };
+
+  // ==== ⬛ Rectangle for Icons ====
+  const rectWidth = radius * 1.5;
+  const rectHeight = radius * 0.25;
+  const rectY = centerY + radius * 0.75;
+  const rectangle = Matter.Bodies.rectangle(centerX, rectY, rectWidth, rectHeight, {
+    isStatic: true,
+    render: {
+      fillStyle: 'rgba(0,255,0,0.2)', // translucent green
+      //strokeStyle: 'green',
+      lineWidth: 2
+    }
+  });
+
+  this.rectangle = {
+    x: centerX - rectWidth / 2,
+    y: rectY - rectHeight / 2,
+    width: rectWidth,
+    height: rectHeight
+  };
+
+  // ==== 🔺 Triangle Behind Everything ====
+  const triangleHeight = radius * 2;
+  const triangle = Matter.Bodies.fromVertices(
+    centerX,
+    centerY + triangleHeight * 0.2,
+    [[
+      { x: 0, y: -radius },
+      { x: -radius * 1.5, y: triangleHeight },
+      { x: radius * 1.5, y: triangleHeight }
+    ]],
+    {
       isStatic: true,
-      render: { visible: false }
-    });
+      render: {
+        fillStyle: 'transparent',
+        //strokeStyle: 'blue',
+        lineWidth: 2
+      }
+    },
+    true
+  );
+  
+  this.triangle = {
+    x: triangle.bounds.min.x,
+    y: triangle.bounds.min.y,
+    width: triangle.bounds.max.x - triangle.bounds.min.x,
+    height: triangle.bounds.max.y - triangle.bounds.min.y
+  };
 
-    this.circle = { x: centerX, y: centerY, radius: radius / 2 };
+  // ==== 🧱 Add All to World ====
+  Matter.World.add(world, [circle, rectangle, triangle]);
 
-    const rectWidth = radius * 1.5;
-    const rectHeight = radius * 0.2;
-    const rectangle = Matter.Bodies.rectangle(centerX, centerY + radius * 0.75, rectWidth, rectHeight, {
-      isStatic: true,
-      render: { visible: false }
-    });
+  // ==== 🟫 Ground (for falling objects) ====
+  const ground = Matter.Bodies.rectangle(width / 2, height + 50, width, 100, {
+    isStatic: true,
+    render: { fillStyle: 'rgba(255,255,255,0.2)' }
+  });
+  Matter.World.add(world, ground);
 
-    this.rectangle = {
-      x: centerX - rectWidth / 2,
-      y: centerY + radius * 0.75 - rectHeight / 2,
-      width: rectWidth,
-      height: rectHeight
-    };
+  // 🔄 Start Falling Items
+  this.startContinuousSpawning();
 
-    const triangleSize = radius;
-    const triangle = Matter.Bodies.fromVertices(
-      centerX,
-      centerY * 1.175,
-      [[
-        { x: 0, y: -triangleSize * 0.5 },
-        { x: -triangleSize * 1.5, y: triangleSize * 2 },
-        { x: triangleSize * 1.5, y: triangleSize * 2 }
-      ]],
-      {
-        isStatic: true,
-        render: { fillStyle: 'transparent', strokeStyle: 'white', lineWidth: 1 }
-      },
-      true
-    );
-
-    this.triangle = {
-      x: triangle.bounds.min.x,
-      y: triangle.bounds.min.y,
-      width: triangle.bounds.max.x - triangle.bounds.min.x,
-      height: triangle.bounds.max.y - triangle.bounds.min.y
-    };
-
-    Matter.World.add(world, [circle, rectangle, triangle]);
-    this.startContinuousSpawning();
-
-    const ground = Matter.Bodies.rectangle(width / 2, height + 50, width, 100, {
-      isStatic: true,
-      render: { fillStyle: 'rgba(255,255,255,0.2)' }
-    });
-
-    Matter.World.add(world, ground);
-
-    this.cdr.detectChanges(); // ensure UI sync
-  }
+  // 📸 Trigger Angular UI refresh
+  this.cdr.detectChanges();
+}
 
   startContinuousSpawning(): void {
 
@@ -160,7 +182,7 @@ export class Background implements OnInit, OnDestroy {
       { x: -8, y: 2 }
     ];
 
-    const choice = Math.floor(Math.random() * 3);
+    const choice = Math.floor(Math.random() * 4);
     let body: Matter.Body;
     if (choice === 0) {
       // 0
@@ -215,15 +237,20 @@ export class Background implements OnInit, OnDestroy {
     Matter.World.add(world, body);
   }
 
-
-
   getIconStyle(index: number) {
     if (!this.rectangle) return {};
 
-    const iconSize = 32;
-    const spacing = this.rectangle.width / 5;
+    const iconCount = this.icons.length;
+    const spacing = this.rectangle.width / (iconCount + 1);
+
+    // Base icon size as a proportion of rectangle height
+    const proportionalSize = this.rectangle.height * 0.6;
+
+    // Clamp to min/max size in pixels
+    const iconSize = Math.max(24, Math.min(48, proportionalSize));
+
     const left = this.rectangle.x + spacing * (index + 1) - iconSize / 2;
-    const top = this.rectangle.y + this.rectangle.height / 2 - iconSize / 2;
+    const top = this.rectangle.y + (this.rectangle.height - iconSize) / 2;
 
     return {
       top: `${top}px`,
@@ -233,6 +260,27 @@ export class Background implements OnInit, OnDestroy {
       position: 'absolute'
     };
   }
+
+  getNameStyle() {
+    if (!this.triangle) return {};
+
+    // OR even better if triangle object includes `bounds`:
+    const top = this.triangle.y + this.triangle.height + 16;
+
+    return {
+      position: 'absolute',
+      top: `${top}px`,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      fontSize: 'clamp(15px, 5vw, 50px)',
+      fontWeight: 600,
+      color: 'white',
+      textAlign: 'center',
+      zIndex: 20,
+      pointerEvents: 'none'
+    };
+  }
+
 
   onResize = () => {
     this.render.canvas.width = window.innerWidth;

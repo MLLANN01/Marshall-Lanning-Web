@@ -5,8 +5,7 @@ import {
   OnInit,
   OnDestroy,
   ViewChild,
-  ChangeDetectorRef,
-  ɵSSR_CONTENT_INTEGRITY_MARKER
+  ChangeDetectorRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as Matter from 'matter-js';

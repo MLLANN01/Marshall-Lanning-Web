@@ -1,3 +1,9 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
 canvas {
   display: block;
   position: absolute;
@@ -50,10 +56,76 @@ img {
   object-fit: contain;
   transition: transform 0.2s ease;
   width: 100%;
-  height: 100%
+  height: 100%;
 }
 
 /* Force SVG icons to white */
 .white-icon {
   filter: invert(100%) brightness(200%);
+}
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.skills-section {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: black;
+}
+
+.skills-funnel {
+  width: 40%;
+  background-color: black;
+}
+
+.skills-content {
+  width: 60%;
+  background-color: white;
+  padding: 4rem 2rem;
+  overflow-y: auto;
+  color: black;
+  font-family: sans-serif;
+}
+
+.skills-content h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-around;
+}
+
+.skill-category {
+  flex: 1 1 40%;
+  min-width: 200px;
+}
+
+.skill-category h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid #333;
+}
+
+.skill-category ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.skill-category li {
+  padding: 0.25rem 0;
+  font-size: 1rem;
 }

@@ -1,10 +1,10 @@
-
-<div>
+<!-- app.html -->
+<section class="hero-section">
   <canvas #canvas></canvas>
 
   <div class="name-heading"
-      *ngIf="triangle"
-      [ngStyle]="getNameStyle()">
+    *ngIf="triangle"
+    [ngStyle]="getNameStyle()">
     Marshall Lanning
   </div>
 
@@ -23,19 +23,6 @@
         left: (circle.x - circle.radius) + 'px',
         width: (circle.radius * 2) + 'px',
         height: (circle.radius * 2) + 'px'
-      }"
-  />
-
-  <!-- Triangle Shape Overlay -->
-  <img *ngIf="triangle"
-      src="assets/background.jpg"
-      class="triangle-img"
-      [ngStyle]="{
-        top: triangle.y + 'px',
-        left: triangle.x + 'px',
-        width: triangle.width + 'px',
-        height: triangle.height + 'px',
-        clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
       }"
   />
 
@@ -61,6 +48,63 @@
     </a>
   </ng-container>
 
-</div>
+  <!-- Triangle Shape Overlay -->
+  <img *ngIf="triangle"
+      src="assets/background.jpg"
+      class="triangle-img"
+      [ngStyle]="{
+        top: triangle.y + 'px',
+        left: triangle.x + 'px',
+        width: triangle.width + 'px',
+        height: triangle.height + 'px',
+        clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+      }"
+  />
+</section>
+
+<section class="skills-section">
+  <div class="skills-funnel"></div>
+  <div class="skills-content">
+    <h2>Skills Matrix</h2>
+    <div class="skills-grid">
+      <div class="skill-category">
+        <h3>Frontend</h3>
+        <ul>
+          <li>Angular</li>
+          <li>React</li>
+          <li>HTML/CSS</li>
+          <li>TypeScript</li>
+        </ul>
+      </div>
+      <div class="skill-category">
+        <h3>Backend</h3>
+        <ul>
+          <li>Node.js</li>
+          <li>Python</li>
+          <li>.NET Core</li>
+          <li>REST APIs</li>
+        </ul>
+      </div>
+      <div class="skill-category">
+        <h3>DevOps & Cloud</h3>
+        <ul>
+          <li>Docker & Kubernetes</li>
+          <li>CI/CD Pipelines</li>
+          <li>Azure / GCP</li>
+          <li>Terraform</li>
+        </ul>
+      </div>
+      <div class="skill-category">
+        <h3>AI / Data</h3>
+        <ul>
+          <li>LLMs (OpenAI, Vertex AI)</li>
+          <li>LangChain</li>
+          <li>MongoDB / BigQuery</li>
+          <li>Vector Databases</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
 <router-outlet></router-outlet>

@@ -100,7 +100,7 @@ export class App implements OnInit, OnDestroy {
   getRectangle(centerX: number, centerY: number, radius: number): Matter.Body {
     const rectWidth = radius * 1.5;
     const rectHeight = radius * 0.25;
-    const rectY = centerY + radius * 0.75;
+    const rectY = centerY + radius * .90;
     const rectangle = Matter.Bodies.rectangle(centerX, rectY, rectWidth, rectHeight, {
       isStatic: true,
       render: {

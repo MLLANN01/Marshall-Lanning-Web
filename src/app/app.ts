@@ -20,7 +20,8 @@ import * as Matter from 'matter-js';
 
 export class App implements OnInit, OnDestroy {
   @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
-  
+  @ViewChild('aboutContent', { static: true }) aboutContentRef!: ElementRef<HTMLElement>;
+
   private engine = Matter.Engine.create();
   private render!: Matter.Render;
   private runner = Matter.Runner.create();
@@ -40,16 +41,20 @@ export class App implements OnInit, OnDestroy {
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    const canvas = this.canvasRef.nativeElement;
+    const canvas = document.querySelector('canvas') as HTMLCanvasElement;
 
     window.addEventListener('resize', this.onResize);
+
+    window.addEventListener('scroll', () => {
+      canvas.height = document.body.scrollHeight;
+    });
 
     this.render = Matter.Render.create({
       canvas,
       engine: this.engine,
       options: {
         width: window.innerWidth,
-        height: window.innerHeight,
+        height: document.body.scrollHeight,
         wireframes: false,
         background: 'transparent'
       }
@@ -62,9 +67,16 @@ export class App implements OnInit, OnDestroy {
   }
 
   setupScene(): void {
+    const wallThickness = 50;
     const world = this.engine.world;
+
+    const aboutEl = this.aboutContentRef.nativeElement;
+    const aboutRectangle = aboutEl.getBoundingClientRect();
+
     const width = window.innerWidth;
     const height = window.innerHeight;
+    const fullHeight = document.body.scrollHeight;
+    const fullWidth = window.innerWidth;
 
     const isSmallScreen = width < 900;
 
@@ -77,7 +89,42 @@ export class App implements OnInit, OnDestroy {
     const rectangle = this.getRectangle(centerX, centerY, radius);
     const triangle = this.getTriangle(centerX, centerY, radius);
 
+    // Left wall
+    const leftWall = Matter.Bodies.rectangle(
+      -wallThickness / 2,              // x position (off-screen)
+      fullHeight / 2,                  // centered vertically
+      wallThickness,
+      fullHeight,
+      { isStatic: true }
+    );
+
+    // Right wall
+    const rightWall = Matter.Bodies.rectangle(
+      fullWidth + wallThickness / 2,   // x position (off-screen)
+      fullHeight / 2,
+      wallThickness,
+      fullHeight,
+      { isStatic: true }
+    );
+
+    const aboutBody = Matter.Bodies.rectangle(
+      aboutRectangle.left + aboutRectangle.width / 2 + window.scrollX,
+      aboutRectangle.top + aboutRectangle.height / 2 + window.scrollY,
+      aboutRectangle.width,
+      aboutRectangle.height,
+      { 
+        isStatic: true,
+        render: {
+          fillStyle: 'transparent', // translucent red
+          //strokeStyle: 'red',
+          lineWidth: 2
+        }
+      }
+    );
+
+    Matter.World.add(this.engine.world, aboutBody);
     Matter.World.add(world, [circle, rectangle, triangle]);
+    Matter.World.add(this.engine.world, [leftWall, rightWall]);
 
     this.startContinuousSpawning();
 
@@ -304,7 +351,7 @@ export class App implements OnInit, OnDestroy {
 
   onResize = () => {
     this.render.canvas.width = window.innerWidth;
-    this.render.canvas.height = window.innerHeight;
+    this.render.canvas.height = document.body.scrollHeight;
     this.render.options.width = window.innerWidth;
     this.render.options.height = window.innerHeight;
 

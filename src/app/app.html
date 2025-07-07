@@ -1,110 +1,74 @@
-<!-- app.html -->
-<section class="hero-section">
-  <canvas #canvas></canvas>
+<canvas #canvas></canvas>
+<div class="scroll-container">
 
-  <div class="name-heading"
-    *ngIf="triangle"
-    [ngStyle]="getNameStyle()">
-    Marshall Lanning
-  </div>
+  <section class="hero-section">
 
-  <div class="name-subheading"
-    *ngIf="triangle"
-    [ngStyle]="getSubNameStyle()">
-    Engineer · Musician
-  </div>
+    <!-- Triangle Background Image -->
+    <img *ngIf="triangle"
+        src="assets/background.jpg"
+        class="triangle-img"
+        [ngStyle]="{
+          top: triangle.y + 'px',
+          left: triangle.x + 'px',
+          width: triangle.width + 'px',
+          height: triangle.height + 'px',
+          clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+        }"
+    />
 
-  <!-- Profile Image -->
-  <img *ngIf="circle"
-      src="assets/profile.jpg"
-      class="profile-img"
-      [ngStyle]="{
-        top: (circle.y - circle.radius) + 'px',
-        left: (circle.x - circle.radius) + 'px',
-        width: (circle.radius * 2) + 'px',
-        height: (circle.radius * 2) + 'px'
-      }"
-  />
+    <!-- Profile Image (Circle Body) -->
+    <img *ngIf="circle"
+        src="assets/profile.jpg"
+        class="profile-img"
+        [ngStyle]="{
+          top: (circle.y - circle.radius) + 'px',
+          left: (circle.x - circle.radius) + 'px',
+          width: (circle.radius * 2) + 'px',
+          height: (circle.radius * 2) + 'px'
+        }"
+    />
 
-  <!-- Rectangle Bar Overlay -->
-  <div *ngIf="rectangle"
-      class="rectangle"
-      [ngStyle]="{
-        top: rectangle.y + 'px',
-        left: rectangle.x + 'px',
-        width: rectangle.width + 'px',
-        height: rectangle.height + 'px'
-      }">
-  </div>
+    <!-- Rectangle Bar Image -->
+    <img *ngIf="rectangle"
+        src="assets/bar.png"
+        class="rectangle-img"
+        [ngStyle]="{
+          top: rectangle.y + 'px',
+          left: rectangle.x + 'px',
+          width: rectangle.width + 'px',
+          height: rectangle.height + 'px'
+        }"
+    />
 
-  <!-- Icons Overlay -->
-  <ng-container *ngIf="rectangle">
-    <a *ngFor="let icon of icons; index as i"
-      class="icon-link"
-      [href]="icon.href"
-      target="_blank"
-      [ngStyle]="getIconStyle(i)">
-      <img [src]="icon.src" class="icon white-icon" />
-    </a>
-  </ng-container>
+    <!-- Social Icons -->
+    <ng-container *ngIf="rectangle">
+      <a *ngFor="let icon of icons; index as i"
+        class="icon-link"
+        [href]="icon.href"
+        target="_blank"
+        [ngStyle]="getIconStyle(i)">
+        <img [src]="icon.src" class="icon white-icon" />
+      </a>
+    </ng-container>
 
-  <!-- Triangle Shape Overlay -->
-  <img *ngIf="triangle"
-      src="assets/background.jpg"
-      class="triangle-img"
-      [ngStyle]="{
-        top: triangle.y + 'px',
-        left: triangle.x + 'px',
-        width: triangle.width + 'px',
-        height: triangle.height + 'px',
-        clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
-      }"
-  />
-</section>
-
-<section class="skills-section">
-  <div class="skills-funnel"></div>
-  <div class="skills-content">
-    <h2>Skills Matrix</h2>
-    <div class="skills-grid">
-      <div class="skill-category">
-        <h3>Frontend</h3>
-        <ul>
-          <li>Angular</li>
-          <li>React</li>
-          <li>HTML/CSS</li>
-          <li>TypeScript</li>
-        </ul>
-      </div>
-      <div class="skill-category">
-        <h3>Backend</h3>
-        <ul>
-          <li>Node.js</li>
-          <li>Python</li>
-          <li>.NET Core</li>
-          <li>REST APIs</li>
-        </ul>
-      </div>
-      <div class="skill-category">
-        <h3>DevOps & Cloud</h3>
-        <ul>
-          <li>Docker & Kubernetes</li>
-          <li>CI/CD Pipelines</li>
-          <li>Azure / GCP</li>
-          <li>Terraform</li>
-        </ul>
-      </div>
-      <div class="skill-category">
-        <h3>AI / Data</h3>
-        <ul>
-          <li>LLMs (OpenAI, Vertex AI)</li>
-          <li>LangChain</li>
-          <li>MongoDB / BigQuery</li>
-          <li>Vector Databases</li>
-        </ul>
-      </div>
+    <!-- Name and Subheading -->
+    <div class="name-heading" *ngIf="triangle" [ngStyle]="getNameStyle()">
+      Marshall Lanning
     </div>
-  </div>
-</section>
 
-<router-outlet></router-outlet>
+    <div class="name-subheading" *ngIf="triangle" [ngStyle]="getSubNameStyle()">
+      Engineer · Musician
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section" id="about">
+    <div #aboutContent class="about-content">
+      <h2>About Me</h2>
+      <p>
+        I’m a software engineer and musician passionate about blending creativity and code.
+        I build clean, interactive web experiences and love exploring the intersection of design and logic.
+      </p>
+    </div>
+  </section>
+</div>

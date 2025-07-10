@@ -69,12 +69,6 @@ img {
   min-height: 100vh;
 }
 
-.about-section {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-}
-
 /* New About Me Section Styling */
 .about-section {
   background: #111;
@@ -92,6 +86,46 @@ img {
 }
 
 .about-content {
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+.experience-section {
+  background: #111;
+  color: #fff;
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  padding: 80px 20px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 5;
+  position: relative;
+  width: 100%;
+  min-height: 50vh;
+}
+
+.experience-content {
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+.skills-section {
+  background: #111;
+  color: #fff;
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  padding: 80px 20px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 5;
+  position: relative;
+  width: 100%;
+  min-height: 50vh;
+}
+
+.skills-content {
   max-width: 800px;
   line-height: 1.6;
 }

@@ -107,24 +107,8 @@ export class App implements OnInit, OnDestroy {
       { isStatic: true }
     );
 
-    const aboutBody = Matter.Bodies.rectangle(
-      aboutRectangle.left + aboutRectangle.width / 2 + window.scrollX,
-      aboutRectangle.top + aboutRectangle.height / 2 + window.scrollY,
-      aboutRectangle.width,
-      aboutRectangle.height,
-      { 
-        isStatic: true,
-        render: {
-          fillStyle: 'transparent', // translucent red
-          //strokeStyle: 'red',
-          lineWidth: 2
-        }
-      }
-    );
-
-    Matter.World.add(this.engine.world, aboutBody);
     Matter.World.add(world, [circle, rectangle, triangle]);
-    Matter.World.add(this.engine.world, [leftWall, rightWall]);
+    Matter.World.add(world, [leftWall, rightWall]);
 
     this.startContinuousSpawning();
 

@@ -8,9 +8,9 @@ import React from 'react'
 
 function App() {
   return (
-    <div className="bg-black text-white min-h-screen max-w-full">
+    <div className="bg-stone-900 text-white min-h-screen max-w-full">
       <Navbar />
-      <main className="ml-56 max-w-3xl px-6 py-12 space-y-24">
+      <main className="ml-20 mr-20 px-6 py-12 space-y-24">
         <section id="about">
           <About />
         </section>

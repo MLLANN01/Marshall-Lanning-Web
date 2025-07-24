@@ -6,7 +6,7 @@ const ExperienceCard = ({ experience, className = '' }) => (
     <div className="flex flex-col md:flex-row gap-6 mb-6">
       {/* Company Logo and Divider */}
       <div className="flex flex-col items-center">
-        <div className="bg-stone-800 rounded w-20 h-20 flex items-center justify-center">
+        <div className="w-20 h-20 flex items-center justify-center">
           <img src={experience.companyLogo} alt={experience.company} className="h-12 w-12 object-contain" />
         </div>
         <div className="hidden md:block h-full w-px bg-stone-700 mx-2 mt-4" />

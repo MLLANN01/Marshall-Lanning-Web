@@ -18,6 +18,9 @@ const About = () => (
           Proven ability to lead high-performing teams that deliver innovative solutions across enterprise-scale logistics operations.
           Passionate about aligning software delivery with measurable business outcomes and mentoring future leaders.
         </p>
+        <p className="leading-relaxed mb-4">
+          Skilled in scaling Microservice Architecture, DataOps, DevOps, and Agent development. 
+        </p>
       </div>
     </div>
   </div>

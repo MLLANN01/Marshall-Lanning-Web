@@ -14,15 +14,15 @@ function App() {
       <main className="mx-[20vw] py-12 space-y-10">
         <section id="about">
           <About />
-        </section>
-        <section id="skills">
-          <Skills />
-        </section>
+        </section>        
         <section id="experience">
           <Experience />
         </section>
         <section id="projects">
           <Projects />
+        </section>
+        <section id="skills">
+          <Skills />
         </section>
         <section id="contact">
           <Contact />

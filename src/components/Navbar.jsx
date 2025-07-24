@@ -3,7 +3,7 @@ import React from 'react'
 const Navbar = () => (
   <div className="flex bg-black items-center justify-between border-b shadow py-5 px-[20vw] min-w-100">
     <div className="flex items-center gap-3">
-        <img src="/icon/favicon.ico" alt="Logo" className="h-10 w-10 rounded-full" />
+        <img src="/icon/marshall/favicon.ico" alt="Logo" className="h-10 w-10 rounded-full" />
         <h2 className="text-3xl font-bold">Marshall Lanning</h2>
         <h1 className="text-2xl font-bold"></h1>
     </div>

@@ -5,7 +5,7 @@ const ExperienceCard = ({ experience, className = '' }) => (
   <div className={`bg-stone-900 rounded-md shadow-md p-8 mb-8 max-w-8xl w-full mx-auto ${className}`}>
     <div className="flex flex-col md:flex-row gap-6 mb-6">
       {/* Company Logo and Divider */}
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col items-center">
         <div className="bg-stone-800 rounded w-20 h-20 flex items-center justify-center">
           <img src={experience.companyLogo} alt={experience.company} className="h-12 w-12 object-contain" />
         </div>
@@ -24,9 +24,9 @@ const ExperienceCard = ({ experience, className = '' }) => (
             </span>
           </div>
           {experience.product && (
-            <div className="text-lg text-gray-400 mb-1">{experience.product}</div>
+            <div className="text-lg text-gray-400 mb-1 italic">{experience.product}</div>
           )}
-          <div className="text-lg text-gray-400 mb-2">{experience.company}</div>
+          <div className="text-lg text-gray-400 mb-2 italic">{experience.company}</div>
         </div>
         {/* Description */}
         <p className="text-gray-300 mt-4">{experience.description}</p>

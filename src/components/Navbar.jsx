@@ -9,9 +9,9 @@ const Navbar = () => (
     </div>
     <nav className="flex gap-6 justify-end">
         <a href="#about" className="hover:text-teal-500 font-medium">About</a>
-        <a href="#skills" className="hover:text-teal-500 font-medium">Skills</a>
         <a href="#experience" className="hover:text-teal-500 font-medium">Experience</a>
         <a href="#projects" className="hover:text-teal-500 font-medium">Projects</a>
+        <a href="#skills" className="hover:text-teal-500 font-medium">Skills</a>
         <a href="#contact" className="hover:text-teal-500 font-medium">Contact</a>
     </nav>
   </div>

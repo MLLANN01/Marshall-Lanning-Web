@@ -24,7 +24,7 @@ const skillGroups = [
     ],
   },
   {
-    title: 'Frontend Frameworks',
+    title: 'Frontend Frameworks and Technologies',
     skills: [
       { label: 'Angular', icon: '/icon/etc/angular.svg' },
       { label: 'React', icon: '/icon/etc/react.svg' },
@@ -73,6 +73,7 @@ const skillGroups = [
       { label: 'Jenkins', icon: '/icon/etc/jenkins.svg' },
       { label: 'Docker', icon: '/icon/etc/docker.svg' },
       { label: 'Kubernetes', icon: '/icon/etc/kubernetes.svg' },
+      { label: 'Git', icon: '/icon/etc/git.svg' },
     ],
   },
   {

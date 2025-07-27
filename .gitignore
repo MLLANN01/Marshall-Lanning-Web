@@ -26,6 +26,3 @@ dist-ssr
 # Environment variables
 .env
 .env.local
-
-# Generated content
-content/*.json

@@ -1,0 +1,58 @@
+name: Fetch Blog Content
+
+on:
+  schedule:
+    # Run every hour
+    - cron: '0 * * * *'
+  workflow_dispatch: # Allow manual triggering
+  repository_dispatch:
+    types: [content-update]
+
+jobs:
+  fetch-content:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Fetch content from content repository
+        env:
+          CONTENT_GITHUB_TOKEN: ${{ secrets.CONTENT_GITHUB_TOKEN }}
+          CONTENT_GITHUB_OWNER: ${{ vars.CONTENT_GITHUB_OWNER }}
+          CONTENT_GITHUB_REPO: ${{ vars.CONTENT_GITHUB_REPO }}
+        run: node scripts/fetch-content.js
+        
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git add -A
+          if git diff --staged --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Commit and push if changed
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Update blog content [skip ci]"
+          git push
+          
+      - name: Trigger deployment
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          # Add your deployment trigger here
+          # For example, if using Vercel/Netlify, their GitHub integration will auto-deploy
+          echo "Content updated, deployment will be triggered by your hosting provider"

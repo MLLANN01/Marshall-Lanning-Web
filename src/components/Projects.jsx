@@ -10,15 +10,16 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: 'Marshall Lanning Resume Site',
+      title: 'Marshall Lanning Professional Portfolio',
       type: 'Web',
-      description: 'Reactive web application showcasing my professional portfolio and resume.',
+      description: 'Reactive web application showcasing my professional portfolio, blog, and resume.',
       image: '/projects/resume-site.png',
       technologies: [
         { label: 'React', icon: '/icon/etc/react.svg' },
         { label: 'Tailwind', icon: '/icon/etc/tailwind.svg' },
         { label: 'AWS', icon: '/icon/etc/aws.svg' },
-        { label: 'Docker', icon: '/icon/etc/docker.svg' },
+        { label: 'Vite', icon: '/icon/etc/vite.svg' },
+        { label: 'GitHub Actions', icon: '/icon/etc/actions.svg' },
       ],
       githubUrl: 'https://github.com/MLLANN01/Marshall-Lanning-Web',
       liveUrl: 'https://marshalllanning.com',

@@ -30,15 +30,17 @@ const skillGroups = [
       { label: 'React', icon: '/icon/etc/react.svg' },
       { label: 'Vue', icon: '/icon/etc/vue.svg' },
       { label: 'Tailwind', icon: '/icon/etc/tailwind.svg' },
+      { label: 'Vite', icon: '/icon/etc/vite.svg' },
     ],
   },
   {
-    title: 'Backend Frameworks',
+    title: 'Backend Frameworks and Technologies',
     skills: [
       { label: 'Node', icon: '/icon/etc/node.svg' },
       { label: 'Flask', icon: '/icon/etc/flask.svg' },
       { label: 'SpringBoot', icon: '/icon/etc/springboot.svg' },
       { label: '.NET', icon: '/icon/etc/dotnet.svg' },
+      { label: 'GraphQL', icon: '/icon/etc/graphql.svg' },
     ],
   },
   {
@@ -82,6 +84,7 @@ const skillGroups = [
       { label: 'HashiCorp Vault', icon: '/icon/etc/vault.svg' },
       { label: 'OpenShift', icon: '/icon/etc/openshift.svg' },
       { label: 'Postman', icon: '/icon/etc/postman.svg' },
+      { label: 'GitHub Actions', icon: '/icon/etc/actions.svg' },
     ],
   },
   {

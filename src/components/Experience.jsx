@@ -50,7 +50,7 @@ const Experience = () => (
           technologies: [
             { label: "Dotnet", icon: "/icon/etc/dotnet.svg" },
             { label: "Angular", icon: "/icon/etc/angular.svg" },
-            { label: "GCP", icon: "/icon/etc/gcp.svg" },
+            { label: "GraphQL", icon: "/icon/etc/graphql.svg" },
             { label: "BigQuery", icon: "/icon/etc/bigquery.svg" },
             { label: "Terraform", icon: "/icon/etc/terraform.svg" }
           ]

@@ -35,7 +35,7 @@ async function fetchDirectoryContents(path) {
   try {
     const { data } = await octokit.repos.getContent({
       owner: CONTENT_GITHUB_OWNER,
-      repo: GITHUB_REPCONTENT_GITHUB_REPOO,
+      repo: CONTENT_GITHUB_REPO,
       path,
     });
     return Array.isArray(data) ? data : [data];

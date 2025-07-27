@@ -2,10 +2,13 @@ import React from 'react'
 import ExperienceCard from './ExperienceCard'
 
 const Experience = () => (
-  <div>
-    <h2 className="text-3xl font-bold mb-4">Experience</h2>
-    <hr className="border-t-2 border-gray-300 mb-6" />
-    <div className="p-6">
+  <div className="animate-fadeIn">
+    <div className="mb-8">
+      <p className="text-sm text-gray-500 font-light tracking-widest uppercase mb-2">My Journey</p>
+      <h2 className="text-4xl font-light tracking-wide animate-slideInLeft">Experience</h2>
+    </div>
+    <div className="w-full h-px bg-gradient-to-r from-gray-700 to-transparent mb-8 animate-slideInLeft" />
+    <div className="space-y-6 stagger-animation">
       <ExperienceCard
         experience={{
           company: "UPS",
@@ -37,7 +40,7 @@ const Experience = () => (
           fromDate: "Jul 2021",
           toDate: "Jan 2023",
           companyLogo: "/icon/etc/ups.svg",
-          description: "Guided technical design and delivery of yard management systems, leading efforts in system automation, DevOps transformation, and real-time data integration. Served as a hands-on leader fostering engineering excellence and operational scalability.",
+          description: "Guided technical design and delivery of autonomous yard management systems. Led efforts in DevOps transformation and real-time data integration. Served as a hands-on leader fostering engineering excellence and operational scalability.",
           achievements: [
             "Engineered real-time ETL pipelines to ingest edge/IOT and system data into BigQuery, accelerating planning decisions and data accessibility.",
             "Designed an automated yard control system that replaced 80% of manual routing decisions; design currently under patent review.",

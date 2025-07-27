@@ -1,4 +1,5 @@
 import Navbar from './components/Navbar.jsx'
+import Hero from './components/Hero.jsx'
 import About from './components/About.jsx'
 import Experience from './components/Experience.jsx'
 import Projects from './components/Projects.jsx'
@@ -9,24 +10,35 @@ import React from 'react'
 
 function App() {
   return (
-    <div className="bg-black text-white min-h-screen max-w-full">
+    <div className="bg-black text-white min-h-screen relative overflow-x-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-900/20 to-black pointer-events-none" />
+      <div className="absolute inset-0 opacity-5 pointer-events-none"
+        style={{
+          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px)`
+        }}
+      />
       <Navbar />
-      <main className="mx-[20vw] py-12 space-y-10">
-        <section id="about">
+      <main className="relative">
+        <section id="hero" className="-mt-20">
+          <Hero />
+        </section>
+        <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-24 space-y-24">
+        <section id="about" className="scroll-mt-20">
           <About />
         </section>        
-        <section id="experience">
+        <section id="experience" className="scroll-mt-20">
           <Experience />
         </section>
-        <section id="projects">
+        <section id="projects" className="scroll-mt-20">
           <Projects />
         </section>
-        <section id="skills">
+        <section id="skills" className="scroll-mt-20">
           <Skills />
         </section>
-        <section id="contact">
+        <section id="contact" className="scroll-mt-20">
           <Contact />
         </section>
+        </div>
       </main>
     </div>
   )

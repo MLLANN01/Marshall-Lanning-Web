@@ -29,6 +29,7 @@ const skillGroups = [
       { label: 'Angular', icon: '/icon/etc/angular.svg' },
       { label: 'React', icon: '/icon/etc/react.svg' },
       { label: 'Vue', icon: '/icon/etc/vue.svg' },
+      { label: 'Tailwind', icon: '/icon/etc/tailwind.svg' },
     ],
   },
   {
@@ -98,17 +99,25 @@ const skillGroups = [
 
 
 const Skills = () => (
-  <div>
-    <h2 className="text-3xl font-bold mb-4">Skills</h2>
-    <hr className="border-t-2 border-gray-300 mb-6" />
-    <div className="space-y-8">
-      {skillGroups.map((group) => (
-        <div key={group.title} className="flex flex-col items-center w-full">
-          <h3 className="text-xl font-semibold mb-2">{group.title}</h3>
-          <div className="flex flex-wrap justify-center gap-4 w-full max-w-6xl">
-            {group.skills.map((skill) => (
-              <SkillCard key={skill.label} icon={skill.icon} label={skill.label} />
-            ))}
+  <div className="animate-fadeIn">
+    <div className="mb-8">
+      <p className="text-sm text-gray-500 font-light tracking-widest uppercase mb-2">Life Long Learning</p>
+      <h2 className="text-4xl font-light tracking-wide animate-slideInLeft">Skills</h2>
+    </div>
+    <div className="w-full h-px bg-gradient-to-r from-gray-700 to-transparent mb-8 animate-slideInLeft" />
+    <div className="space-y-10">
+      {skillGroups.map((group, index) => (
+        <div key={group.title} className="group animate-fadeIn" style={{ animationDelay: `${index * 100}ms` }}>
+          <div className="mb-6">
+            <div className="flex items-center gap-4 mb-4">
+              <h3 className="text-2xl font-light text-gray-200">{group.title}</h3>
+              <div className="flex-1 h-px bg-gradient-to-r from-gray-700 via-gray-600/50 to-transparent" />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+              {group.skills.map((skill) => (
+                <SkillCard key={skill.label} icon={skill.icon} label={skill.label} />
+              ))}
+            </div>
           </div>
         </div>
       ))}

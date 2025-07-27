@@ -1,11 +1,16 @@
 import React from 'react'
 
 const SkillCard = ({ icon, label, className = '' }) => (
-  <div className={`bg-stone-900 rounded-md flex flex-col items-center justify-center w-40 h-44 shadow-md ${className}`}>
-    <div className="flex items-center justify-center w-24 h-24 bg-stone-800 rounded mb-4">
-      <img src={icon} alt={label} className="h-12 w-12 object-contain" />
+  <div className={`group relative p-4 bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700 transition-all duration-300 hover:border-gray-600 hover:shadow-lg hover:scale-105 hover:bg-gray-800/70 cursor-pointer ${className}`}>
+    <div className="flex flex-col items-center justify-center space-y-3">
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="relative flex items-center justify-center w-16 h-16 bg-gray-900/50 rounded-lg group-hover:bg-gray-900/80 transition-colors duration-300">
+          <img src={icon} alt={label} className="h-10 w-10 object-contain group-hover:scale-110 transition-transform duration-300" />
+        </div>
+      </div>
+      <span className="text-sm font-light text-gray-200 tracking-wide group-hover:text-white transition-colors duration-300">{label}</span>
     </div>
-    <span className="text-base font-semibold text-gray-100 tracking-wide">{label}</span>
   </div>
 )
 

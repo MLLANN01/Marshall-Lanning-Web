@@ -74,7 +74,7 @@ const Experience = () => (
             { label: "Java", icon: "/icon/etc/java.svg" },
             { label: "Kafka", icon: "/icon/etc/kafka.svg" },
             { label: "Grafana", icon: "/icon/etc/grafana.svg" },
-            { label: "Docker", icon: "/icon/etc/docker.svg" },
+            { label: "OpenShift", icon: "/icon/etc/openshift.svg" },
             { label: "Couchbase", icon: "/icon/etc/couchbase.svg" }
           ]
         }}
@@ -97,7 +97,7 @@ const Experience = () => (
             { label: "Azure", icon: "/icon/etc/azure.svg" },
             { label: "SQL Server", icon: "/icon/etc/sqlserver.svg" },
             { label: "SpringBoot", icon: "/icon/etc/springboot.svg" },
-            { label: "Azure DevOps", icon: "/icon/etc/azure-devops.svg" }
+            { label: "Linux", icon: "/icon/etc/linux.svg" }
           ]
         }}
       />

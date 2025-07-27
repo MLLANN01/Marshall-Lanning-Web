@@ -8,6 +8,7 @@ const ProjectCard = ({ project }) => {
     'AI': 'from-green-600 to-emerald-600',
     'Backend': 'from-orange-600 to-red-600',
     'DevOps': 'from-gray-600 to-slate-600',
+    'Desktop': 'from-yellow-600 to-orange-600',
   }
 
   const gradientClass = typeColors[project.type] || 'from-gray-600 to-gray-700'

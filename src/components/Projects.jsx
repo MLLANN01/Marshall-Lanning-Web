@@ -48,6 +48,45 @@ const Projects = () => {
         { label: 'Prompt Engineering', icon: '/icon/etc/prompt.svg' },
         { label: 'LLM Fine Tuning', icon: '/icon/etc/openai.svg' },
       ]
+    },
+    {
+      id: 4,
+      title: 'Big Stomp Mobile App',
+      type: 'Mobile',
+      description: 'Mobile application POC for local music festival with event scheduling and artist profiles integration.',
+      image: '/projects/big-stomp.png',
+      technologies: [
+        { label: 'React', icon: '/icon/etc/react.svg' },
+        { label: 'Cordova', icon: '/icon/etc/cordova.svg' },
+        { label: 'JavaScript', icon: '/icon/etc/javascript.svg' },
+      ]
+    },
+    {
+      id: 5,
+      title: 'Portfolio Optimizer',
+      type: 'Desktop',
+      description: 'Desktop application that analyzes historical stock data to optimize investment portfolions using a genetic algorithm.',
+      image: '/projects/chart.png',
+      technologies: [
+        { label: 'Dotnet', icon: '/icon/etc/dotnet.svg' },
+        { label: 'C#', icon: '/icon/etc/csharp.svg' },
+        { label: 'Azure', icon: '/icon/etc/azure.svg' }
+      ],
+      githubUrl: 'https://github.com/MLLANN01/PortfolioOptimization'
+    },
+    {
+      id: 6,
+      title: 'Clinical Trials',
+      type: 'Mobile',
+      description: 'Mobile application used to discover clinical trial offerings from the University of Louisville.',
+      image: '/projects/uofl.png',
+      technologies: [
+        { label: 'Xamarin', icon: '/icon/etc/xamarin.svg' },
+        { label: 'SQL Server', icon: '/icon/etc/sqlserver.svg' },
+        { label: 'C#', icon: '/icon/etc/csharp.svg' },
+        { label: 'Azure', icon: '/icon/etc/azure.svg' }
+      ],
+      liveUrl: 'https://apps.apple.com/us/app/uofl-clinical-trials-mobile/id1586566178'
     }
   ]
 

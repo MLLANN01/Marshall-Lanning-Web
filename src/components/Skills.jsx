@@ -75,6 +75,13 @@ const skillGroups = [
       { label: 'Docker', icon: '/icon/etc/docker.svg' },
       { label: 'Kubernetes', icon: '/icon/etc/kubernetes.svg' },
       { label: 'Git', icon: '/icon/etc/git.svg' },
+      { label: 'Bash', icon: '/icon/etc/bash.svg' },
+      { label: 'PowerShell', icon: '/icon/etc/powershell.svg' },
+      { label: 'Linux', icon: '/icon/etc/linux.svg' },
+      { label: 'Windows', icon: '/icon/etc/windows.svg' },
+      { label: 'HashiCorp Vault', icon: '/icon/etc/vault.svg' },
+      { label: 'OpenShift', icon: '/icon/etc/openshift.svg' },
+      { label: 'Postman', icon: '/icon/etc/postman.svg' },
     ],
   },
   {

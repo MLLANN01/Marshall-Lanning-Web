@@ -3,7 +3,7 @@ import { FaLinkedin, FaGithub, FaSteam, FaSoundcloud, FaCalendarAlt, FaGift } fr
 
 const About = () => {
   const socialLinks = [
-    { icon: FaLinkedin, href: 'www.linkedin.com/in/marshall-lanning', label: 'LinkedIn', color: 'hover:text-blue-400' },
+    { icon: FaLinkedin, href: 'https://www.linkedin.com/in/marshall-lanning', label: 'LinkedIn', color: 'hover:text-blue-400' },
     { icon: FaGithub, href: 'https://github.com/MLLANN01', label: 'GitHub', color: 'hover:text-gray-400' },
     { icon: FaSteam, href: 'https://steamcommunity.com/id/MGLL414/', label: 'Steam', color: 'hover:text-gray-300' },
     { icon: FaGift, href: 'https://www.amazon.com/hz/wishlist/ls/1KF52VBDNKRT4?ref_=wl_share', label: 'Amazon Wish List', color: 'hover:text-yellow-400' },

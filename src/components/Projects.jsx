@@ -12,7 +12,7 @@ const Projects = () => {
       id: 1,
       title: 'Marshall Lanning Resume Site',
       type: 'Web',
-      description: 'Full-stack e-commerce solution with microservices architecture, real-time inventory management, and integrated payment processing.',
+      description: 'Reactive web application showcasing my professional portfolio and resume.',
       image: '/projects/resume-site.png',
       technologies: [
         { label: 'React', icon: '/icon/etc/react.svg' },

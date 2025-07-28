@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
+import ShareButtons from '../ShareButtons';
 import 'highlight.js/styles/github-dark.css';
 
 const BookReview = () => {
@@ -180,6 +181,21 @@ const BookReview = () => {
             {book.content}
           </ReactMarkdown>
         </div>
+
+        <footer className="mt-16 pt-8 border-t border-gray-800 space-y-8">
+          <ShareButtons 
+            url={`/books/${book.slug}`}
+            title={`"${book.title}" by ${book.author} - Book Review`}
+            type="book review"
+          />
+          
+          <Link 
+            to="/books" 
+            className="inline-flex items-center text-gray-400 hover:text-white transition-colors"
+          >
+            ← Back to all books
+          </Link>
+        </footer>
       </article>
     </div>
   );

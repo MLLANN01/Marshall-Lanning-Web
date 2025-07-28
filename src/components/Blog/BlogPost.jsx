@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
+import ShareButtons from '../ShareButtons';
 import 'highlight.js/styles/github-dark.css';
 
 const BlogPost = () => {
@@ -138,7 +139,13 @@ const BlogPost = () => {
         </ReactMarkdown>
       </div>
 
-      <footer className="mt-16 pt-8 border-t border-gray-800">
+      <footer className="mt-16 pt-8 border-t border-gray-800 space-y-8">
+        <ShareButtons 
+          url={`/blog/${post.slug}`}
+          title={post.title}
+          type="blog post"
+        />
+        
         <Link 
           to="/blog" 
           className="inline-flex items-center text-gray-400 hover:text-white transition-colors"

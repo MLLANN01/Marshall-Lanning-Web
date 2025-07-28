@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
@@ -181,8 +182,45 @@ const BlogPost = () => {
     );
   }
 
+  const pageUrl = `${window.location.origin}/blog/${post.slug}`;
+  const imageUrl = post.featuredImage 
+    ? `${window.location.origin}${post.featuredImage}`
+    : `${window.location.origin}/profile-square.png`;
+
   return (
     <div className="min-h-screen bg-black relative">
+      <Helmet>
+        {/* Basic Meta Tags */}
+        <title>{post.title} | Marshall Lanning</title>
+        <meta name="description" content={post.excerpt} />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Marshall Lanning" />
+        <meta property="article:author" content={post.author} />
+        <meta property="article:published_time" content={new Date(post.date).toISOString()} />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt} />
+        <meta name="twitter:image" content={imageUrl} />
+        
+        {/* LinkedIn specific */}
+        <meta property="og:image:alt" content={post.title} />
+        <meta name="author" content={post.author} />
+        
+        {/* Additional tags for better sharing */}
+        <link rel="canonical" href={pageUrl} />
+      </Helmet>
+
       {/* Subtle background pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/20 to-gray-800/20"></div>
       

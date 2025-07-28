@@ -13,15 +13,22 @@ dotenv.config();
 const CONTENT_GITHUB_TOKEN = process.env.CONTENT_GITHUB_TOKEN;
 const CONTENT_GITHUB_OWNER = process.env.CONTENT_GITHUB_OWNER;
 const CONTENT_GITHUB_REPO = process.env.CONTENT_GITHUB_REPO;
+const USE_LOCAL_CONTENT = process.env.USE_LOCAL_CONTENT === 'true';
 
-if (!CONTENT_GITHUB_TOKEN || !CONTENT_GITHUB_OWNER || !CONTENT_GITHUB_REPO) {
-  console.error('Missing required environment variables. Please check your .env file.');
-  process.exit(1);
+// Path to local content repository
+const LOCAL_CONTENT_PATH = path.join(__dirname, '../../marshall-lanning-content');
+
+let octokit;
+if (!USE_LOCAL_CONTENT) {
+  if (!CONTENT_GITHUB_TOKEN || !CONTENT_GITHUB_OWNER || !CONTENT_GITHUB_REPO) {
+    console.error('Missing required environment variables for GitHub API. Please check your .env file or set USE_LOCAL_CONTENT=true for local development.');
+    process.exit(1);
+  }
+  
+  octokit = new Octokit({
+    auth: CONTENT_GITHUB_TOKEN,
+  });
 }
-
-const octokit = new Octokit({
-  auth: CONTENT_GITHUB_TOKEN,
-});
 
 async function ensureDirectoryExists(dirPath) {
   try {
@@ -31,35 +38,61 @@ async function ensureDirectoryExists(dirPath) {
   }
 }
 
-async function fetchDirectoryContents(path) {
-  try {
-    const { data } = await octokit.repos.getContent({
-      owner: CONTENT_GITHUB_OWNER,
-      repo: CONTENT_GITHUB_REPO,
-      path,
-    });
-    return Array.isArray(data) ? data : [data];
-  } catch (error) {
-    console.error(`Error fetching directory ${path}:`, error.message);
-    return [];
+async function fetchDirectoryContents(relativePath) {
+  if (USE_LOCAL_CONTENT) {
+    try {
+      const fullPath = path.join(LOCAL_CONTENT_PATH, relativePath);
+      const entries = await fs.readdir(fullPath, { withFileTypes: true });
+      
+      return entries.map(entry => ({
+        name: entry.name,
+        path: path.join(relativePath, entry.name),
+        type: entry.isDirectory() ? 'dir' : 'file'
+      }));
+    } catch (error) {
+      console.error(`Error reading local directory ${relativePath}:`, error.message);
+      return [];
+    }
+  } else {
+    try {
+      const { data } = await octokit.repos.getContent({
+        owner: CONTENT_GITHUB_OWNER,
+        repo: CONTENT_GITHUB_REPO,
+        path: relativePath,
+      });
+      return Array.isArray(data) ? data : [data];
+    } catch (error) {
+      console.error(`Error fetching directory ${relativePath}:`, error.message);
+      return [];
+    }
   }
 }
 
-async function fetchFileContent(path) {
-  try {
-    const { data } = await octokit.repos.getContent({
-      owner: CONTENT_GITHUB_OWNER,
-      repo: CONTENT_GITHUB_REPO,
-      path,
-    });
-    
-    if (data.type === 'file' && data.content) {
-      return Buffer.from(data.content, 'base64').toString('utf-8');
+async function fetchFileContent(relativePath) {
+  if (USE_LOCAL_CONTENT) {
+    try {
+      const fullPath = path.join(LOCAL_CONTENT_PATH, relativePath);
+      return await fs.readFile(fullPath, 'utf-8');
+    } catch (error) {
+      console.error(`Error reading local file ${relativePath}:`, error.message);
+      return null;
     }
-    return null;
-  } catch (error) {
-    console.error(`Error fetching file ${path}:`, error.message);
-    return null;
+  } else {
+    try {
+      const { data } = await octokit.repos.getContent({
+        owner: CONTENT_GITHUB_OWNER,
+        repo: CONTENT_GITHUB_REPO,
+        path: relativePath,
+      });
+      
+      if (data.type === 'file' && data.content) {
+        return Buffer.from(data.content, 'base64').toString('utf-8');
+      }
+      return null;
+    } catch (error) {
+      console.error(`Error fetching file ${relativePath}:`, error.message);
+      return null;
+    }
   }
 }
 
@@ -141,11 +174,55 @@ async function processBookReviews() {
   return bookData;
 }
 
+async function copyImages() {
+  const publicImagesDir = path.join(__dirname, '..', 'public', 'images');
+  const sourceImagesDir = USE_LOCAL_CONTENT 
+    ? path.join(LOCAL_CONTENT_PATH, 'images')
+    : null;
+
+  if (USE_LOCAL_CONTENT && sourceImagesDir) {
+    try {
+      // Check if source images directory exists
+      await fs.access(sourceImagesDir);
+      
+      // Ensure public images directory exists
+      await ensureDirectoryExists(publicImagesDir);
+      
+      // Copy blog images
+      const blogImagesSource = path.join(sourceImagesDir, 'blog');
+      const blogImagesDest = path.join(publicImagesDir, 'blog');
+      
+      try {
+        await fs.access(blogImagesSource);
+        await ensureDirectoryExists(blogImagesDest);
+        
+        const blogImages = await fs.readdir(blogImagesSource);
+        for (const image of blogImages) {
+          if (image.match(/\.(jpg|jpeg|png|gif|svg|webp)$/i)) {
+            await fs.copyFile(
+              path.join(blogImagesSource, image),
+              path.join(blogImagesDest, image)
+            );
+          }
+        }
+        console.log(`✓ Copied ${blogImages.length} blog images`);
+      } catch (error) {
+        console.log('No blog images directory found');
+      }
+    } catch (error) {
+      console.log('No images directory found in content repository');
+    }
+  }
+}
+
 async function saveContent() {
   const contentDir = path.join(__dirname, '..', 'content');
   await ensureDirectoryExists(contentDir);
 
   try {
+    // Copy images first
+    await copyImages();
+
     // Fetch and save blog posts
     const blogPosts = await processBlogPosts();
     await fs.writeFile(
@@ -181,4 +258,5 @@ async function saveContent() {
 }
 
 // Run the script
+console.log(USE_LOCAL_CONTENT ? 'Using local content repository...' : 'Using GitHub API...');
 saveContent();

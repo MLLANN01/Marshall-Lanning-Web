@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import ShareButtons from '../ShareButtons';
 import 'highlight.js/styles/github-dark.css';
+import './BlogPost.css';
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -46,6 +47,113 @@ const BlogPost = () => {
     });
   };
 
+  const calculateReadingTime = (content) => {
+    const wordsPerMinute = 200;
+    const wordCount = content.trim().split(/\s+/).length;
+    const readingTime = Math.ceil(wordCount / wordsPerMinute);
+    return `${readingTime} min read`;
+  };
+
+  // Custom components for ReactMarkdown
+  const components = {
+    h1: ({children}) => (
+      <h1 className="text-5xl font-bold text-white mt-16 mb-8 leading-tight">
+        {children}
+      </h1>
+    ),
+    h2: ({children}) => (
+      <h2 className="text-3xl font-bold text-white mt-16 mb-8 leading-tight tracking-tight">
+        {children}
+      </h2>
+    ),
+    h3: ({children}) => (
+      <h3 className="text-2xl font-semibold text-gray-100 mt-12 mb-6 leading-tight">
+        {children}
+      </h3>
+    ),
+    p: ({children}) => (
+      <p className="text-xl text-gray-300 mb-8 leading-loose">
+        {children}
+      </p>
+    ),
+    ul: ({children}) => (
+      <ul className="list-disc text-gray-300 mb-8 space-y-2 ml-6">
+        {children}
+      </ul>
+    ),
+    ol: ({children}) => (
+      <ol className="list-decimal text-gray-300 mb-8 space-y-2 ml-6">
+        {children}
+      </ol>
+    ),
+    li: ({children}) => (
+      <li className="text-lg leading-relaxed pl-2">
+        <span className="text-gray-300">{children}</span>
+      </li>
+    ),
+    blockquote: ({children}) => (
+      <blockquote className="border-l-4 border-gray-600 pl-6 my-8 italic text-gray-400 text-xl">
+        {children}
+      </blockquote>
+    ),
+    code: ({inline, children}) => {
+      if (inline) {
+        return (
+          <code className="bg-gray-800 text-gray-300 px-2 py-1 rounded text-sm font-mono">
+            {children}
+          </code>
+        );
+      }
+      return (
+        <code className="block">
+          {children}
+        </code>
+      );
+    },
+    pre: ({children}) => (
+      <pre className="bg-gray-900 border border-gray-800 rounded-lg p-4 overflow-x-auto mb-6 shadow-lg">
+        {children}
+      </pre>
+    ),
+    a: ({href, children}) => (
+      <a 
+        href={href} 
+        className="text-white underline decoration-gray-500 underline-offset-4 hover:decoration-white transition-colors"
+        target={href.startsWith('http') ? '_blank' : undefined}
+        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+      >
+        {children}
+      </a>
+    ),
+    strong: ({children}) => (
+      <strong className="text-white font-semibold">
+        {children}
+      </strong>
+    ),
+    em: ({children}) => (
+      <em className="text-gray-200 italic">
+        {children}
+      </em>
+    ),
+    hr: () => (
+      <hr className="border-gray-700 my-12 w-1/3 mx-auto" />
+    ),
+    img: ({src, alt}) => (
+      <figure className="my-12">
+        <img 
+          src={src} 
+          alt={alt || ''} 
+          className="w-full rounded-lg shadow-2xl border border-gray-800"
+        />
+        {alt && (
+          <figcaption className="text-center text-gray-500 text-sm mt-4 italic">
+            {alt}
+          </figcaption>
+        )}
+      </figure>
+    ),
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex justify-center items-center">
@@ -74,7 +182,11 @@ const BlogPost = () => {
   }
 
   return (
-    <article className="max-w-4xl mx-auto px-4 py-12">
+    <div className="min-h-screen bg-black relative">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900/20 to-gray-800/20"></div>
+      
+    <article className="relative max-w-4xl mx-auto px-6 py-16">
       <Link 
         to="/blog" 
         className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors"
@@ -82,17 +194,25 @@ const BlogPost = () => {
         ← Back to Blog
       </Link>
 
-      <header className="mb-12">
-        <h1 className="text-4xl md:text-5xl font-light text-white mb-4 animate-fadeIn">
+      <header className="mb-16">
+        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight animate-fadeIn">
           {post.title}
         </h1>
         
-        <div className="flex items-center gap-4 text-gray-400 mb-6">
-          <time>{formatDate(post.date)}</time>
+        {post.excerpt && (
+          <p className="text-xl md:text-2xl text-gray-400 mb-8 leading-relaxed font-light">
+            {post.excerpt}
+          </p>
+        )}
+        
+        <div className="flex items-center gap-4 text-gray-500 mb-8 text-lg">
+          <time className="font-medium">{formatDate(post.date)}</time>
+          <span>·</span>
+          <span className="reading-time">{calculateReadingTime(post.content)}</span>
           {post.author && (
             <>
-              <span>•</span>
-              <span>{post.author}</span>
+              <span>·</span>
+              <span className="font-medium">{post.author}</span>
             </>
           )}
         </div>
@@ -102,7 +222,7 @@ const BlogPost = () => {
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-sm px-3 py-1 bg-gray-800 text-gray-400 rounded"
+                className="text-sm px-4 py-2 bg-gray-800/50 text-gray-400 rounded-full hover:bg-gray-800 transition-colors"
               >
                 {tag}
               </span>
@@ -111,27 +231,9 @@ const BlogPost = () => {
         )}
       </header>
 
-      {post.featuredImage && (
-        <div className="mb-12">
-          <img
-            src={post.featuredImage}
-            alt={post.title}
-            className="w-full rounded-lg"
-          />
-        </div>
-      )}
-
-      <div className="prose prose-invert prose-lg max-w-none
-                      prose-headings:font-light prose-headings:text-gray-200
-                      prose-p:text-gray-300 prose-p:leading-relaxed
-                      prose-a:text-white prose-a:underline prose-a:decoration-gray-500
-                      prose-strong:text-white prose-strong:font-medium
-                      prose-code:text-gray-300 prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
-                      prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-800
-                      prose-blockquote:border-gray-700 prose-blockquote:text-gray-400
-                      prose-ul:text-gray-300 prose-ol:text-gray-300
-                      prose-img:rounded-lg">
+      <div className="article-content">
         <ReactMarkdown
+          components={components}
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeHighlight]}
         >
@@ -154,6 +256,7 @@ const BlogPost = () => {
         </Link>
       </footer>
     </article>
+    </div>
   );
 };
 

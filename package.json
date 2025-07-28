@@ -7,11 +7,14 @@
     "dev": "vite",
     "build": "cp -r content public/ && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fetch-content": "node scripts/fetch-content.js",
+    "fetch-content:local": "USE_LOCAL_CONTENT=true node scripts/fetch-content.js"
   },
   "dependencies": {
     "@octokit/rest": "^22.0.0",
     "@tailwindcss/postcss": "^4.1.11",
+    "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.11",
     "autoprefixer": "^10.4.21",
     "gray-matter": "^4.0.3",

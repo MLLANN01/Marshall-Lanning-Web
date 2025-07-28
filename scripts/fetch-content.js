@@ -21,7 +21,7 @@ const LOCAL_CONTENT_PATH = path.join(__dirname, '../../marshall-lanning-content'
 let octokit;
 if (!USE_LOCAL_CONTENT) {
   if (!CONTENT_GITHUB_TOKEN || !CONTENT_GITHUB_OWNER || !CONTENT_GITHUB_REPO) {
-    console.error('Missing required environment variables for GitHub API. Please check your .env file or set USE_LOCAL_CONTENT=true for local development.');
+    console.error('Missing required environment variables. Please check your .env file or set USE_LOCAL_CONTENT=true for local development.');
     process.exit(1);
   }
   
@@ -60,60 +60,46 @@ async function fetchDirectoryContents(relativePath) {
         repo: CONTENT_GITHUB_REPO,
         path: relativePath,
       });
+      
       return Array.isArray(data) ? data : [data];
     } catch (error) {
-      console.error(`Error fetching directory ${relativePath}:`, error.message);
+      console.error(`Error fetching from GitHub ${relativePath}:`, error.message);
       return [];
     }
   }
 }
 
-async function fetchFileContent(relativePath) {
+async function fetchFileContent(filePath) {
   if (USE_LOCAL_CONTENT) {
-    try {
-      const fullPath = path.join(LOCAL_CONTENT_PATH, relativePath);
-      return await fs.readFile(fullPath, 'utf-8');
-    } catch (error) {
-      console.error(`Error reading local file ${relativePath}:`, error.message);
-      return null;
-    }
+    const fullPath = path.join(LOCAL_CONTENT_PATH, filePath);
+    return await fs.readFile(fullPath, 'utf8');
   } else {
-    try {
-      const { data } = await octokit.repos.getContent({
-        owner: CONTENT_GITHUB_OWNER,
-        repo: CONTENT_GITHUB_REPO,
-        path: relativePath,
-      });
-      
-      if (data.type === 'file' && data.content) {
-        return Buffer.from(data.content, 'base64').toString('utf-8');
-      }
-      return null;
-    } catch (error) {
-      console.error(`Error fetching file ${relativePath}:`, error.message);
-      return null;
-    }
+    const { data } = await octokit.repos.getContent({
+      owner: CONTENT_GITHUB_OWNER,
+      repo: CONTENT_GITHUB_REPO,
+      path: filePath,
+    });
+    
+    return Buffer.from(data.content, 'base64').toString('utf8');
   }
 }
 
 async function processBlogPosts() {
   console.log('Fetching blog posts...');
-  const posts = await fetchDirectoryContents('blog');
   const blogData = [];
-
-  for (const post of posts) {
-    if (post.type === 'file' && post.name.endsWith('.md')) {
-      const content = await fetchFileContent(post.path);
-      if (content) {
-        const { data, content: markdown } = matter(content);
-        
-        // Generate slug from filename
-        const slug = post.name.replace('.md', '');
-        
+  const blogContents = await fetchDirectoryContents('blog');
+  
+  for (const item of blogContents) {
+    if (item.type === 'file' && item.name.endsWith('.md')) {
+      const content = await fetchFileContent(item.path);
+      const { data, content: markdown } = matter(content);
+      
+      if (data.title) {
+        const slug = item.name.replace('.md', '');
         blogData.push({
           slug,
-          title: data.title || 'Untitled',
-          date: data.date || new Date().toISOString(),
+          title: data.title,
+          date: data.date,
           author: data.author || 'Marshall Lanning',
           excerpt: data.excerpt || markdown.substring(0, 150) + '...',
           tags: data.tags || [],
@@ -124,38 +110,31 @@ async function processBlogPosts() {
       }
     }
   }
-
+  
   // Sort by date (newest first)
   blogData.sort((a, b) => new Date(b.date) - new Date(a.date));
-
+  
   return blogData;
 }
 
 async function processBookReviews() {
   console.log('Fetching book reviews...');
-  const books = await fetchDirectoryContents('books');
   const bookData = [];
-
-  for (const book of books) {
-    if (book.type === 'file' && book.name.endsWith('.md')) {
-      const content = await fetchFileContent(book.path);
-      if (content) {
-        const { data, content: markdown } = matter(content);
-        
-        // Generate slug from filename
-        const slug = book.name.replace('.md', '');
-        
+  const bookContents = await fetchDirectoryContents('books');
+  
+  for (const item of bookContents) {
+    if (item.type === 'file' && item.name.endsWith('.md')) {
+      const content = await fetchFileContent(item.path);
+      const { data, content: markdown } = matter(content);
+      
+      if (data.title) {
+        const slug = item.name.replace('.md', '');
         bookData.push({
           slug,
-          title: data.title || 'Untitled',
-          author: data.author || 'Unknown Author',
-          isbn: data.isbn || null,
-          dateRead: data.dateRead || new Date().toISOString(),
-          datePublished: data.datePublished || null,
-          rating: data.rating || 0,
-          status: data.status || 'completed',
-          category: data.category || 'Uncategorized',
-          tags: data.tags || [],
+          title: data.title,
+          author: data.author,
+          dateRead: data.dateRead,
+          rating: data.rating,
           coverImage: data.coverImage || null,
           purchaseLink: data.purchaseLink || null,
           excerpt: data.excerpt || markdown.substring(0, 150) + '...',
@@ -167,10 +146,10 @@ async function processBookReviews() {
       }
     }
   }
-
+  
   // Sort by date read (newest first)
   bookData.sort((a, b) => new Date(b.dateRead) - new Date(a.dateRead));
-
+  
   return bookData;
 }
 
@@ -182,10 +161,7 @@ async function copyImages() {
 
   if (USE_LOCAL_CONTENT && sourceImagesDir) {
     try {
-      // Check if source images directory exists
       await fs.access(sourceImagesDir);
-      
-      // Ensure public images directory exists
       await ensureDirectoryExists(publicImagesDir);
       
       // Copy blog images
@@ -216,29 +192,35 @@ async function copyImages() {
 }
 
 async function saveContent() {
-  const contentDir = path.join(__dirname, '..', 'content');
-  await ensureDirectoryExists(contentDir);
-
+  const dataDir = path.join(__dirname, '..', 'data');
+  await ensureDirectoryExists(dataDir);
+  
   try {
+    if (USE_LOCAL_CONTENT) {
+      console.log('Using local content repository...');
+    } else {
+      console.log('Fetching content from GitHub...');
+    }
+    
     // Copy images first
     await copyImages();
-
+    
     // Fetch and save blog posts
     const blogPosts = await processBlogPosts();
     await fs.writeFile(
-      path.join(contentDir, 'blog-posts.json'),
+      path.join(dataDir, 'blog-posts.json'),
       JSON.stringify(blogPosts, null, 2)
     );
     console.log(`✓ Saved ${blogPosts.length} blog posts`);
-
+    
     // Fetch and save book reviews
     const bookReviews = await processBookReviews();
     await fs.writeFile(
-      path.join(contentDir, 'book-reviews.json'),
+      path.join(dataDir, 'book-reviews.json'),
       JSON.stringify(bookReviews, null, 2)
     );
     console.log(`✓ Saved ${bookReviews.length} book reviews`);
-
+    
     // Create a metadata file with last update time
     const metadata = {
       lastUpdated: new Date().toISOString(),
@@ -246,17 +228,16 @@ async function saveContent() {
       bookCount: bookReviews.length,
     };
     await fs.writeFile(
-      path.join(contentDir, 'metadata.json'),
+      path.join(dataDir, 'metadata.json'),
       JSON.stringify(metadata, null, 2)
     );
+    
     console.log('✓ Content fetch completed successfully');
-
   } catch (error) {
-    console.error('Error saving content:', error);
+    console.error('Error fetching content:', error);
     process.exit(1);
   }
 }
 
-// Run the script
-console.log(USE_LOCAL_CONTENT ? 'Using local content repository...' : 'Using GitHub API...');
+// Run the fetch
 saveContent();

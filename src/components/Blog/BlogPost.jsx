@@ -219,6 +219,36 @@ const BlogPost = () => {
         
         {/* Additional tags for better sharing */}
         <link rel="canonical" href={pageUrl} />
+        
+        {/* Structured Data for SEO */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.excerpt,
+            "image": imageUrl,
+            "datePublished": new Date(post.date).toISOString(),
+            "dateModified": new Date(post.date).toISOString(),
+            "author": {
+              "@type": "Person",
+              "name": post.author,
+              "url": "https://www.marshalllanning.com"
+            },
+            "publisher": {
+              "@type": "Person",
+              "name": "Marshall Lanning",
+              "logo": {
+                "@type": "ImageObject",
+                "url": `${window.location.origin}/profile-square.png`
+              }
+            },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": pageUrl
+            }
+          })}
+        </script>
       </Helmet>
 
       {/* Subtle background pattern */}

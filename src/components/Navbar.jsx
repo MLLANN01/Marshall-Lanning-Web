@@ -13,6 +13,7 @@ const Navbar = () => {
     { href: '#projects', label: 'Projects', isHash: true },
     { href: '#skills', label: 'Skills', isHash: true },
     { href: '/blog', label: 'Blog', isHash: false },
+    { href: '/books', label: 'Books', isHash: false },
     { href: '#contact', label: 'Contact', isHash: true },
   ]
 

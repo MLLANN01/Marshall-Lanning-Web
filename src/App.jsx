@@ -3,6 +3,8 @@ import Navbar from './components/Navbar.jsx'
 import Home from './pages/Home.jsx'
 import Blog from './pages/Blog.jsx'
 import BlogPost from './components/Blog/BlogPost.jsx'
+import Books from './pages/Books.jsx'
+import BookReview from './components/Books/BookReview.jsx'
 import './App.css'
 import React from 'react'
 
@@ -21,6 +23,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/books" element={<Books />} />
+          <Route path="/books/:slug" element={<BookReview />} />
         </Routes>
       </main>
     </div>

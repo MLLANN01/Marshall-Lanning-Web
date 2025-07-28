@@ -60,7 +60,7 @@ export default function Home() {
                 Get in Touch
               </button>
               <a 
-                href="https://your-s3-bucket-url.com/marshall-lanning-resume.pdf"
+                href="https://dwrim58cm70dp.cloudfront.net/marshall-lanning-resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border border-gray-700 hover:border-gray-500 text-gray-300 hover:text-white rounded-lg transition-all duration-300 transform hover:scale-105 font-medium text-sm md:text-base text-center"

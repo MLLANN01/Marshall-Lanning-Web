@@ -19,7 +19,7 @@ export default function Projects() {
         { label: 'React', icon: '/icon/etc/react.svg' },
         { label: 'Tailwind', icon: '/icon/etc/tailwind.svg' },
         { label: 'AWS', icon: '/icon/etc/aws.svg' },
-        { label: 'Vite', icon: '/icon/etc/vite.svg' },
+        { label: 'NextJS', icon: '/icon/etc/nextjs.svg' },
         { label: 'GitHub Actions', icon: '/icon/etc/actions.svg' },
       ],
       githubUrl: 'https://github.com/MLLANN01/Marshall-Lanning-Web',

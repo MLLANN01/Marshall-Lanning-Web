@@ -7,6 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "export": "next build",
     "fetch-content": "node scripts/fetch-content.js",
     "fetch-content:local": "USE_LOCAL_CONTENT=true node scripts/fetch-content.js"
   },

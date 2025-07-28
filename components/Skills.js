@@ -32,6 +32,7 @@ const skillGroups = [
       { label: 'Vue', icon: '/icon/etc/vue.svg' },
       { label: 'Tailwind', icon: '/icon/etc/tailwind.svg' },
       { label: 'Vite', icon: '/icon/etc/vite.svg' },
+      { label: 'NextJS', icon: '/icon/etc/nextjs.svg' },
     ],
   },
   {
@@ -42,6 +43,7 @@ const skillGroups = [
       { label: 'SpringBoot', icon: '/icon/etc/springboot.svg' },
       { label: '.NET', icon: '/icon/etc/dotnet.svg' },
       { label: 'GraphQL', icon: '/icon/etc/graphql.svg' },
+      { label: 'ExpressJS', icon: '/icon/etc/express.svg' },
     ],
   },
   {

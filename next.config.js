@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   trailingSlash: true,
-  output: 'standalone',
-  compress: true,
-  poweredByHeader: false,
   images: {
     remotePatterns: [
       {
@@ -18,28 +15,8 @@ module.exports = {
         protocol: 'https',
         hostname: 'marshall-lanning-content.s3.us-east-2.amazonaws.com',
       }
-    ],
-    unoptimized: false
-  },
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
-          }
-        ]
-      }
     ]
   }
 }
+
+module.exports = nextConfig

@@ -15,3 +15,13 @@ frontend:
     paths:
       - .next/cache/**/*
       - node_modules/**/*
+compute:
+  phases:
+    build:
+      commands:
+        - echo "Setting up compute environment variables"
+  environment:
+    variables:
+      S3_BUCKET: marshall-lanning-content
+      REGION: us-east-2
+      CLOUDFRONT_DOMAIN: d3k0qkvjyc89ec.cloudfront.net

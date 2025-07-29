@@ -5,11 +5,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: process.env.CLOUDFRONT_DOMAIN || 'd-xxxxxxxx.cloudfront.net',
+        hostname: '*.cloudfront.net',
       },
       {
         protocol: 'https',
-        hostname: `${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION || 'us-east-1'}.amazonaws.com`,
+        hostname: '*.s3.*.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'marshall-lanning-content.s3.us-east-2.amazonaws.com',
       }
     ],
     unoptimized: false

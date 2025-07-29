@@ -4,8 +4,7 @@ frontend:
     preBuild:
       commands:
         - npm ci
-        - 'export CONTENT_GITHUB_TOKEN=$(aws ssm get-parameter --name "/amplify/d9xxhiq9nqupv/main/CONTENT_GITHUB_TOKEN" --with-decryption --query "Parameter.Value" --output text 2>/dev/null) && echo "Token retrieved from SSM" || echo "Failed to get token from SSM"'
-        - npm run fetch-content
+        - 'CONTENT_GITHUB_TOKEN=$(aws ssm get-parameter --name "/amplify/d9xxhiq9nqupv/main/CONTENT_GITHUB_TOKEN" --with-decryption --query "Parameter.Value" --output text 2>/dev/null) && echo "Token retrieved from SSM" && CONTENT_GITHUB_TOKEN=$CONTENT_GITHUB_TOKEN npm run fetch-content || echo "Failed to get token from SSM"'
     build:
       commands:
         - npm run build

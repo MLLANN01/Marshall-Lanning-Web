@@ -4,9 +4,7 @@ frontend:
     preBuild:
       commands:
         - npm ci
-        - 'echo "=== Checking environment variables ==="'
-        - 'env | grep -E "CONTENT|GITHUB" | grep -v TOKEN || echo "No matching vars found"'
-        - 'if [ ! -z "$CONTENT_GITHUB_TOKEN" ]; then echo "CONTENT_GITHUB_TOKEN is SET"; else echo "CONTENT_GITHUB_TOKEN is NOT SET"; fi'
+        - 'export CONTENT_GITHUB_TOKEN=$(aws ssm get-parameter --name "/amplify/d9xxhiq9nqupv/main/CONTENT_GITHUB_TOKEN" --with-decryption --query "Parameter.Value" --output text 2>/dev/null) && echo "Token retrieved from SSM" || echo "Failed to get token from SSM"'
         - npm run fetch-content
     build:
       commands:

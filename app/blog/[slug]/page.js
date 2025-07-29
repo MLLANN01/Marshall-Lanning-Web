@@ -4,35 +4,30 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import ShareButtons from '../../../components/ShareButtons'
 
-async function getBlogPosts() {
+// Force dynamic rendering for SSR
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR for performance
+
+async function getBlogPost(slug) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/blog`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/blog/${slug}/`, {
       next: { revalidate: 3600 }
     });
     
     if (!response.ok) {
-      throw new Error('Failed to fetch blog posts');
+      return null;
     }
     
     return await response.json();
   } catch (error) {
-    console.error('Error loading blog posts:', error);
-    return [];
+    console.error('Error loading blog post:', error);
+    return null;
   }
-}
-
-export async function generateStaticParams() {
-  const posts = await getBlogPosts();
-  
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
-  const posts = await getBlogPosts();
-  const post = posts.find(p => p.slug === slug)
+  const post = await getBlogPost(slug);
   
   if (!post) {
     return {
@@ -40,35 +35,38 @@ export async function generateMetadata({ params }) {
     }
   }
 
-    return {
-      title: `${post.title} - Marshall Lanning`,
+  return {
+    title: `${post.title} | Marshall Lanning`,
+    description: post.excerpt,
+    keywords: post.tags?.join(', '),
+    authors: [{ name: post.author || 'Marshall Lanning' }],
+    openGraph: {
+      title: post.title,
       description: post.excerpt,
-      openGraph: {
-        title: post.title,
-        description: post.excerpt,
-        type: 'article',
-        publishedTime: post.date,
-        authors: [post.author],
-        images: post.featuredImage ? [{
-          url: post.featuredImage,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        }] : [],
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: post.title,
-        description: post.excerpt,
-        images: post.featuredImage ? [post.featuredImage] : [],
-      },
-    }
+      type: 'article',
+      publishedTime: post.date,
+      authors: [post.author || 'Marshall Lanning'],
+      siteName: 'Marshall Lanning',
+      images: post.featuredImage ? [{
+        url: post.featuredImage,
+        width: 1200,
+        height: 630,
+        alt: post.title,
+      }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: post.featuredImage ? [post.featuredImage] : [],
+      creator: '@marshalllanning',
+    },
+  }
 }
 
 export default async function BlogPost({ params }) {
   const { slug } = await params
-  const posts = await getBlogPosts();
-  const post = posts.find(p => p.slug === slug)
+  const post = await getBlogPost(slug);
 
   if (!post) {
     notFound()

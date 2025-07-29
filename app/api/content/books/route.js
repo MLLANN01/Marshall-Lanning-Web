@@ -1,89 +1,62 @@
-import { Octokit } from '@octokit/rest';
-import matter from 'gray-matter';
 import { NextResponse } from 'next/server';
+import { fetchBookReviews } from '@/lib/content-utils';
 
-const CONTENT_GITHUB_TOKEN = process.env.CONTENT_GITHUB_TOKEN;
-const CONTENT_GITHUB_OWNER = process.env.CONTENT_GITHUB_OWNER || 'MLLANN01';
-const CONTENT_GITHUB_REPO = process.env.CONTENT_GITHUB_REPO || 'marshall-lanning-content';
+// Rate limiting implementation
+const requestCounts = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_REQUESTS = 30; // 30 requests per minute
 
-let cachedData = null;
-let cacheTime = null;
-const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
-
-async function fetchBookReviews() {
-  // Check cache
-  if (cachedData && cacheTime && Date.now() - cacheTime < CACHE_DURATION) {
-    return cachedData;
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const userRequests = requestCounts.get(ip) || [];
+  
+  // Clean old requests
+  const recentRequests = userRequests.filter(time => now - time < RATE_LIMIT_WINDOW);
+  
+  if (recentRequests.length >= MAX_REQUESTS) {
+    return false;
   }
-
-  if (!CONTENT_GITHUB_TOKEN) {
-    throw new Error('CONTENT_GITHUB_TOKEN not configured');
-  }
-
-  const octokit = new Octokit({ auth: CONTENT_GITHUB_TOKEN });
-  const bookData = [];
-
-  try {
-    // Fetch books directory contents
-    const { data: contents } = await octokit.repos.getContent({
-      owner: CONTENT_GITHUB_OWNER,
-      repo: CONTENT_GITHUB_REPO,
-      path: 'books',
-    });
-
-    // Process each markdown file
-    for (const item of contents) {
-      if (item.type === 'file' && item.name.endsWith('.md')) {
-        const { data: fileData } = await octokit.repos.getContent({
-          owner: CONTENT_GITHUB_OWNER,
-          repo: CONTENT_GITHUB_REPO,
-          path: item.path,
-        });
-
-        const content = Buffer.from(fileData.content, 'base64').toString('utf8');
-        const { data, content: markdown } = matter(content);
-
-        if (data.title) {
-          const slug = item.name.replace('.md', '');
-          bookData.push({
-            slug,
-            title: data.title,
-            author: data.author,
-            dateRead: data.dateRead,
-            rating: data.rating,
-            coverImage: data.coverImage || null,
-            purchaseLink: data.purchaseLink || null,
-            excerpt: data.excerpt || markdown.substring(0, 150) + '...',
-            recommendedFor: data.recommendedFor || [],
-            keyTakeaways: data.keyTakeaways || [],
-            content: markdown,
-            ...data,
-          });
-        }
-      }
-    }
-
-    // Sort by date read (newest first)
-    bookData.sort((a, b) => new Date(b.dateRead) - new Date(a.dateRead));
-
-    // Update cache
-    cachedData = bookData;
-    cacheTime = Date.now();
-
-    return bookData;
-  } catch (error) {
-    console.error('Error fetching book reviews:', error);
-    throw error;
-  }
+  
+  recentRequests.push(now);
+  requestCounts.set(ip, recentRequests);
+  return true;
 }
 
 export async function GET(request) {
   try {
+    // Get client IP for rate limiting
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    
+    // Check rate limit
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { 
+          status: 429,
+          headers: {
+            'Retry-After': '60',
+          }
+        }
+      );
+    }
+
+    // Fetch book reviews
     const books = await fetchBookReviews();
-    return NextResponse.json(books);
+    
+    // Return with security headers
+    return NextResponse.json(books, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+      }
+    });
   } catch (error) {
+    console.error('API Error:', error);
+    
+    // Generic error message (no stack traces)
     return NextResponse.json(
-      { error: 'Failed to fetch book reviews', message: error.message },
+      { error: 'Failed to fetch book reviews' },
       { status: 500 }
     );
   }

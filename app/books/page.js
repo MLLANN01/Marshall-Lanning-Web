@@ -26,7 +26,7 @@ function StarRating({ rating }) {
 
 async function getBookReviews() {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/books`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/books/`, {
       next: { revalidate: 3600 } // Revalidate every hour
     });
     

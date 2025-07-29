@@ -5,35 +5,30 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import ShareButtons from '../../../components/ShareButtons'
 
-async function getBookReviews() {
+// Force dynamic rendering for SSR
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR for performance
+
+async function getBookReview(slug) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/books`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/books/${slug}/`, {
       next: { revalidate: 3600 }
     });
     
     if (!response.ok) {
-      throw new Error('Failed to fetch book reviews');
+      return null;
     }
     
     return await response.json();
   } catch (error) {
-    console.error('Error loading book reviews:', error);
-    return [];
+    console.error('Error loading book review:', error);
+    return null;
   }
-}
-
-export async function generateStaticParams() {
-  const books = await getBookReviews();
-  
-  return books.map((book) => ({
-    slug: book.slug,
-  }))
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
-  const books = await getBookReviews();
-  const book = books.find(b => b.slug === slug)
+  const book = await getBookReview(slug);
   
   if (!book) {
     return {
@@ -41,28 +36,32 @@ export async function generateMetadata({ params }) {
     }
   }
 
-    return {
-      title: `${book.title} Review - Marshall Lanning`,
+  return {
+    title: `${book.title} Review | Marshall Lanning`,
+    description: book.excerpt,
+    keywords: book.recommendedFor?.join(', '),
+    authors: [{ name: 'Marshall Lanning' }],
+    openGraph: {
+      title: `${book.title} - Book Review`,
       description: book.excerpt,
-      openGraph: {
-        title: `${book.title} - Book Review`,
-        description: book.excerpt,
-        type: 'article',
-        authors: ['Marshall Lanning'],
-        images: book.coverImage ? [{
-          url: book.coverImage,
-          width: 400,
-          height: 600,
-          alt: `${book.title} cover`,
-        }] : [],
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: `${book.title} - Book Review`,
-        description: book.excerpt,
-        images: book.coverImage ? [book.coverImage] : [],
-      },
-    }
+      type: 'article',
+      authors: ['Marshall Lanning'],
+      siteName: 'Marshall Lanning',
+      images: book.coverImage ? [{
+        url: book.coverImage,
+        width: 400,
+        height: 600,
+        alt: `${book.title} cover`,
+      }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${book.title} - Book Review`,
+      description: book.excerpt,
+      images: book.coverImage ? [book.coverImage] : [],
+      creator: '@marshalllanning',
+    },
+  }
 }
 
 function StarRating({ rating }) {
@@ -85,8 +84,7 @@ function StarRating({ rating }) {
 
 export default async function BookReview({ params }) {
   const { slug } = await params
-  const books = await getBookReviews();
-  const book = books.find(b => b.slug === slug)
+  const book = await getBookReview(slug);
 
   if (!book) {
     notFound()

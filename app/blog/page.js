@@ -8,7 +8,7 @@ export const metadata = {
 
 async function getBlogPosts() {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/blog`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/blog/`, {
       next: { revalidate: 3600 } // Revalidate every hour
     });
     

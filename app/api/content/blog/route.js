@@ -1,86 +1,62 @@
-import { Octokit } from '@octokit/rest';
-import matter from 'gray-matter';
 import { NextResponse } from 'next/server';
+import { fetchBlogPosts } from '@/lib/content-utils';
 
-const CONTENT_GITHUB_TOKEN = process.env.CONTENT_GITHUB_TOKEN;
-const CONTENT_GITHUB_OWNER = process.env.CONTENT_GITHUB_OWNER || 'MLLANN01';
-const CONTENT_GITHUB_REPO = process.env.CONTENT_GITHUB_REPO || 'marshall-lanning-content';
+// Rate limiting implementation
+const requestCounts = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_REQUESTS = 30; // 30 requests per minute
 
-let cachedData = null;
-let cacheTime = null;
-const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
-
-async function fetchBlogPosts() {
-  // Check cache
-  if (cachedData && cacheTime && Date.now() - cacheTime < CACHE_DURATION) {
-    return cachedData;
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const userRequests = requestCounts.get(ip) || [];
+  
+  // Clean old requests
+  const recentRequests = userRequests.filter(time => now - time < RATE_LIMIT_WINDOW);
+  
+  if (recentRequests.length >= MAX_REQUESTS) {
+    return false;
   }
-
-  if (!CONTENT_GITHUB_TOKEN) {
-    throw new Error('CONTENT_GITHUB_TOKEN not configured');
-  }
-
-  const octokit = new Octokit({ auth: CONTENT_GITHUB_TOKEN });
-  const blogData = [];
-
-  try {
-    // Fetch blog directory contents
-    const { data: contents } = await octokit.repos.getContent({
-      owner: CONTENT_GITHUB_OWNER,
-      repo: CONTENT_GITHUB_REPO,
-      path: 'blog',
-    });
-
-    // Process each markdown file
-    for (const item of contents) {
-      if (item.type === 'file' && item.name.endsWith('.md')) {
-        const { data: fileData } = await octokit.repos.getContent({
-          owner: CONTENT_GITHUB_OWNER,
-          repo: CONTENT_GITHUB_REPO,
-          path: item.path,
-        });
-
-        const content = Buffer.from(fileData.content, 'base64').toString('utf8');
-        const { data, content: markdown } = matter(content);
-
-        if (data.title) {
-          const slug = item.name.replace('.md', '');
-          blogData.push({
-            slug,
-            title: data.title,
-            date: data.date,
-            author: data.author || 'Marshall Lanning',
-            excerpt: data.excerpt || markdown.substring(0, 150) + '...',
-            tags: data.tags || [],
-            featuredImage: data.featuredImage || null,
-            content: markdown,
-            ...data,
-          });
-        }
-      }
-    }
-
-    // Sort by date (newest first)
-    blogData.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    // Update cache
-    cachedData = blogData;
-    cacheTime = Date.now();
-
-    return blogData;
-  } catch (error) {
-    console.error('Error fetching blog posts:', error);
-    throw error;
-  }
+  
+  recentRequests.push(now);
+  requestCounts.set(ip, recentRequests);
+  return true;
 }
 
 export async function GET(request) {
   try {
+    // Get client IP for rate limiting
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    
+    // Check rate limit
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { 
+          status: 429,
+          headers: {
+            'Retry-After': '60',
+          }
+        }
+      );
+    }
+
+    // Fetch blog posts
     const posts = await fetchBlogPosts();
-    return NextResponse.json(posts);
+    
+    // Return with security headers
+    return NextResponse.json(posts, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+      }
+    });
   } catch (error) {
+    console.error('API Error:', error);
+    
+    // Generic error message (no stack traces)
     return NextResponse.json(
-      { error: 'Failed to fetch blog posts', message: error.message },
+      { error: 'Failed to fetch blog posts' },
       { status: 500 }
     );
   }

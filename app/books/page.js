@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { fetchBookReviews } from '@/lib/content-utils'
 
 export const metadata = {
   title: 'Book Reviews - Marshall Lanning',
@@ -26,15 +27,7 @@ function StarRating({ rating }) {
 
 async function getBookReviews() {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/books/`, {
-      next: { revalidate: 3600 } // Revalidate every hour
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch book reviews');
-    }
-    
-    return await response.json();
+    return await fetchBookReviews();
   } catch (error) {
     console.error('Error loading book reviews:', error);
     return [];

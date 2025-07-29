@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { fetchBlogPosts } from '@/lib/content-utils'
 
 export const metadata = {
   title: 'Blog - Marshall Lanning',
@@ -8,15 +9,7 @@ export const metadata = {
 
 async function getBlogPosts() {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/blog/`, {
-      next: { revalidate: 3600 } // Revalidate every hour
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch blog posts');
-    }
-    
-    return await response.json();
+    return await fetchBlogPosts();
   } catch (error) {
     console.error('Error loading blog posts:', error);
     return [];

@@ -4,6 +4,7 @@ import { FaExternalLinkAlt } from 'react-icons/fa'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import ShareButtons from '../../../components/ShareButtons'
+import { fetchBookReview } from '@/lib/content-utils'
 
 // Force dynamic rendering for SSR
 export const dynamic = 'force-dynamic';
@@ -11,15 +12,7 @@ export const revalidate = 3600; // ISR for performance
 
 async function getBookReview(slug) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/books/${slug}/`, {
-      next: { revalidate: 3600 }
-    });
-    
-    if (!response.ok) {
-      return null;
-    }
-    
-    return await response.json();
+    return await fetchBookReview(slug);
   } catch (error) {
     console.error('Error loading book review:', error);
     return null;

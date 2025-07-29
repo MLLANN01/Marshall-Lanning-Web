@@ -3,6 +3,7 @@ import remarkGfm from 'remark-gfm'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import ShareButtons from '../../../components/ShareButtons'
+import { fetchBlogPost } from '@/lib/content-utils'
 
 // Force dynamic rendering for SSR
 export const dynamic = 'force-dynamic';
@@ -10,15 +11,7 @@ export const revalidate = 3600; // ISR for performance
 
 async function getBlogPost(slug) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/blog/${slug}/`, {
-      next: { revalidate: 3600 }
-    });
-    
-    if (!response.ok) {
-      return null;
-    }
-    
-    return await response.json();
+    return await fetchBlogPost(slug);
   } catch (error) {
     console.error('Error loading blog post:', error);
     return null;

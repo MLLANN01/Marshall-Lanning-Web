@@ -16,10 +16,7 @@ export async function generateStaticParams() {
     }));
   } catch (error) {
     console.error('Error generating static params:', error);
-    // Return at least the known slug
-    return [
-      { slug: 'value-stream-delivery' }
-    ];
+    throw error; // Let the build fail if environment variables are missing
   }
 }
 

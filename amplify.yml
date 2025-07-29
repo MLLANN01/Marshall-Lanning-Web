@@ -4,6 +4,7 @@ frontend:
     preBuild:
       commands:
         - npm ci
+        - npm run fetch-content
     build:
       commands:
         - npm run build

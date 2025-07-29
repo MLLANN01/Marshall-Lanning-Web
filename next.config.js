@@ -2,6 +2,8 @@
 module.exports = {
   trailingSlash: true,
   output: 'standalone',
+  compress: true,
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {

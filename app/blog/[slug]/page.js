@@ -1,41 +1,44 @@
-import fs from 'fs/promises'
-import path from 'path'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import ShareButtons from '../../../components/ShareButtons'
 
-export async function generateStaticParams() {
-  const dataPath = path.join(process.cwd(), 'data', 'blog-posts.json')
-  
+async function getBlogPosts() {
   try {
-    const data = await fs.readFile(dataPath, 'utf8')
-    const posts = JSON.parse(data)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/blog`, {
+      next: { revalidate: 3600 }
+    });
     
-    return posts.map((post) => ({
-      slug: post.slug,
-    }))
+    if (!response.ok) {
+      throw new Error('Failed to fetch blog posts');
+    }
+    
+    return await response.json();
   } catch (error) {
-    console.error('Error loading blog posts for static generation:', error)
-    return []
+    console.error('Error loading blog posts:', error);
+    return [];
   }
+}
+
+export async function generateStaticParams() {
+  const posts = await getBlogPosts();
+  
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
-  const dataPath = path.join(process.cwd(), 'data', 'blog-posts.json')
+  const posts = await getBlogPosts();
+  const post = posts.find(p => p.slug === slug)
   
-  try {
-    const data = await fs.readFile(dataPath, 'utf8')
-    const posts = JSON.parse(data)
-    const post = posts.find(p => p.slug === slug)
-    
-    if (!post) {
-      return {
-        title: 'Post Not Found - Marshall Lanning',
-      }
+  if (!post) {
+    return {
+      title: 'Post Not Found - Marshall Lanning',
     }
+  }
 
     return {
       title: `${post.title} - Marshall Lanning`,
@@ -60,26 +63,12 @@ export async function generateMetadata({ params }) {
         images: post.featuredImage ? [post.featuredImage] : [],
       },
     }
-  } catch (error) {
-    console.error('Error generating metadata:', error)
-    return {
-      title: 'Blog Post - Marshall Lanning',
-    }
-  }
 }
 
 export default async function BlogPost({ params }) {
   const { slug } = await params
-  const dataPath = path.join(process.cwd(), 'data', 'blog-posts.json')
-  
-  let post
-  try {
-    const data = await fs.readFile(dataPath, 'utf8')
-    const posts = JSON.parse(data)
-    post = posts.find(p => p.slug === slug)
-  } catch (error) {
-    console.error('Error loading blog post:', error)
-  }
+  const posts = await getBlogPosts();
+  const post = posts.find(p => p.slug === slug)
 
   if (!post) {
     notFound()

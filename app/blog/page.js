@@ -1,5 +1,3 @@
-import fs from 'fs/promises'
-import path from 'path'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -8,16 +6,25 @@ export const metadata = {
   description: 'Thoughts on software engineering, leadership, and technology',
 }
 
-export default async function BlogPage() {
-  const dataPath = path.join(process.cwd(), 'data', 'blog-posts.json')
-  
-  let posts = []
+async function getBlogPosts() {
   try {
-    const data = await fs.readFile(dataPath, 'utf8')
-    posts = JSON.parse(data)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/blog`, {
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch blog posts');
+    }
+    
+    return await response.json();
   } catch (error) {
-    console.error('Error loading blog posts:', error)
+    console.error('Error loading blog posts:', error);
+    return [];
   }
+}
+
+export default async function BlogPage() {
+  const posts = await getBlogPosts();
 
   return (
     <div className="min-h-screen bg-black text-gray-300">

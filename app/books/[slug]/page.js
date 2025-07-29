@@ -1,5 +1,3 @@
-import fs from 'fs/promises'
-import path from 'path'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { FaExternalLinkAlt } from 'react-icons/fa'
@@ -7,36 +5,41 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import ShareButtons from '../../../components/ShareButtons'
 
-export async function generateStaticParams() {
-  const dataPath = path.join(process.cwd(), 'data', 'book-reviews.json')
-  
+async function getBookReviews() {
   try {
-    const data = await fs.readFile(dataPath, 'utf8')
-    const books = JSON.parse(data)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/books`, {
+      next: { revalidate: 3600 }
+    });
     
-    return books.map((book) => ({
-      slug: book.slug,
-    }))
+    if (!response.ok) {
+      throw new Error('Failed to fetch book reviews');
+    }
+    
+    return await response.json();
   } catch (error) {
-    console.error('Error loading book reviews for static generation:', error)
-    return []
+    console.error('Error loading book reviews:', error);
+    return [];
   }
+}
+
+export async function generateStaticParams() {
+  const books = await getBookReviews();
+  
+  return books.map((book) => ({
+    slug: book.slug,
+  }))
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
-  const dataPath = path.join(process.cwd(), 'data', 'book-reviews.json')
+  const books = await getBookReviews();
+  const book = books.find(b => b.slug === slug)
   
-  try {
-    const data = await fs.readFile(dataPath, 'utf8')
-    const books = JSON.parse(data)
-    const book = books.find(b => b.slug === slug)
-    
-    if (!book) {
-      return {
-        title: 'Book Review Not Found - Marshall Lanning',
-      }
+  if (!book) {
+    return {
+      title: 'Book Review Not Found - Marshall Lanning',
     }
+  }
 
     return {
       title: `${book.title} Review - Marshall Lanning`,
@@ -60,12 +63,6 @@ export async function generateMetadata({ params }) {
         images: book.coverImage ? [book.coverImage] : [],
       },
     }
-  } catch (error) {
-    console.error('Error generating metadata:', error)
-    return {
-      title: 'Book Review - Marshall Lanning',
-    }
-  }
 }
 
 function StarRating({ rating }) {
@@ -88,16 +85,8 @@ function StarRating({ rating }) {
 
 export default async function BookReview({ params }) {
   const { slug } = await params
-  const dataPath = path.join(process.cwd(), 'data', 'book-reviews.json')
-  
-  let book
-  try {
-    const data = await fs.readFile(dataPath, 'utf8')
-    const books = JSON.parse(data)
-    book = books.find(b => b.slug === slug)
-  } catch (error) {
-    console.error('Error loading book review:', error)
-  }
+  const books = await getBookReviews();
+  const book = books.find(b => b.slug === slug)
 
   if (!book) {
     notFound()

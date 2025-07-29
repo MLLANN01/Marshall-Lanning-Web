@@ -1,5 +1,3 @@
-import fs from 'fs/promises'
-import path from 'path'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -26,16 +24,25 @@ function StarRating({ rating }) {
   )
 }
 
-export default async function BooksPage() {
-  const dataPath = path.join(process.cwd(), 'data', 'book-reviews.json')
-  
-  let books = []
+async function getBookReviews() {
   try {
-    const data = await fs.readFile(dataPath, 'utf8')
-    books = JSON.parse(data)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/api/content/books`, {
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch book reviews');
+    }
+    
+    return await response.json();
   } catch (error) {
-    console.error('Error loading book reviews:', error)
+    console.error('Error loading book reviews:', error);
+    return [];
   }
+}
+
+export default async function BooksPage() {
+  const books = await getBookReviews();
 
   return (
     <div className="min-h-screen bg-black text-gray-300">

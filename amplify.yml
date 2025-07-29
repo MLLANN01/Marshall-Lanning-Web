@@ -3,7 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - export CONTENT_GITHUB_TOKEN=$AWS_AMPLIFY_CONTENT_GITHUB_TOKEN
+        - export CONTENT_GITHUB_TOKEN=$CONTENT_GITHUB_TOKEN
         - 'echo "Debug: CONTENT_GITHUB_TOKEN is ${CONTENT_GITHUB_TOKEN:+SET}${CONTENT_GITHUB_TOKEN:-NOT SET}"'
         - npm ci
         - npm run fetch-content

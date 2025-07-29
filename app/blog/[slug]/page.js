@@ -5,20 +5,9 @@ import Image from 'next/image'
 import ShareButtons from '../../../components/ShareButtons'
 import { fetchBlogPost } from '@/lib/content-utils'
 
-// Static export configuration
-export async function generateStaticParams() {
-  try {
-    const { fetchBlogPosts } = require('@/lib/content-utils');
-    const posts = await fetchBlogPosts();
-    
-    return posts.map((post) => ({
-      slug: post.slug,
-    }));
-  } catch (error) {
-    console.error('Error generating static params:', error);
-    throw error; // Let the build fail if environment variables are missing
-  }
-}
+// Force dynamic rendering for SSR
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR for performance
 
 async function getBlogPost(slug) {
   try {

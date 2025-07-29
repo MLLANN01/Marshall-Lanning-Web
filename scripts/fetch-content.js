@@ -4,7 +4,6 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import { secret } from '@aws-amplify/backend';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,11 +14,6 @@ const CONTENT_GITHUB_TOKEN = process.env.CONTENT_GITHUB_TOKEN;
 const CONTENT_GITHUB_OWNER = process.env.CONTENT_GITHUB_OWNER;
 const CONTENT_GITHUB_REPO = process.env.CONTENT_GITHUB_REPO;
 const USE_LOCAL_CONTENT = process.env.USE_LOCAL_CONTENT === 'true';
-
-if (!USE_LOCAL_CONTENT) {
-  CONTENT_GITHUB_TOKEN = secret('CONTENT_GITHUB_TOKEN');
-  console.log('Using GitHub content fetch with token:', CONTENT_GITHUB_TOKEN);
-}
 
 // Path to local content repository
 const LOCAL_CONTENT_PATH = path.join(__dirname, '../../marshall-lanning-content');

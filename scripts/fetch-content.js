@@ -20,9 +20,21 @@ const LOCAL_CONTENT_PATH = path.join(__dirname, '../../marshall-lanning-content'
 
 let octokit;
 if (!USE_LOCAL_CONTENT) {
+  console.log('Environment variables check:');
+  console.log('- USE_LOCAL_CONTENT:', USE_LOCAL_CONTENT);
+  console.log('- CONTENT_GITHUB_OWNER:', CONTENT_GITHUB_OWNER || 'NOT SET');
+  console.log('- CONTENT_GITHUB_REPO:', CONTENT_GITHUB_REPO || 'NOT SET');
+  console.log('- CONTENT_GITHUB_TOKEN:', CONTENT_GITHUB_TOKEN ? 'SET' : 'NOT SET');
+  
   if (!CONTENT_GITHUB_TOKEN || !CONTENT_GITHUB_OWNER || !CONTENT_GITHUB_REPO) {
-    console.error('Missing required environment variables. Please check your .env file or set USE_LOCAL_CONTENT=true for local development.');
-    process.exit(1);
+    console.error('❌ Missing required environment variables for GitHub content fetch:');
+    console.error('Required: CONTENT_GITHUB_TOKEN, CONTENT_GITHUB_OWNER, CONTENT_GITHUB_REPO');
+    console.error('💡 Solution: Configure these in AWS Amplify Console → Environment Variables');
+    console.error('⚠️  Falling back to empty content to prevent build failure...');
+    
+    // Create empty content files to prevent build failure
+    await createEmptyContent();
+    process.exit(0);
   }
   
   octokit = new Octokit({
@@ -36,6 +48,37 @@ async function ensureDirectoryExists(dirPath) {
   } catch {
     await fs.mkdir(dirPath, { recursive: true });
   }
+}
+
+async function createEmptyContent() {
+  const dataDir = path.join(__dirname, '..', 'data');
+  await ensureDirectoryExists(dataDir);
+  
+  // Create empty blog posts
+  await fs.writeFile(
+    path.join(dataDir, 'blog-posts.json'),
+    JSON.stringify([], null, 2)
+  );
+  
+  // Create empty book reviews
+  await fs.writeFile(
+    path.join(dataDir, 'book-reviews.json'),
+    JSON.stringify([], null, 2)
+  );
+  
+  // Create metadata
+  const metadata = {
+    lastUpdated: new Date().toISOString(),
+    blogCount: 0,
+    bookCount: 0,
+    source: 'fallback-empty-content'
+  };
+  await fs.writeFile(
+    path.join(dataDir, 'metadata.json'),
+    JSON.stringify(metadata, null, 2)
+  );
+  
+  console.log('✅ Created empty content files for build');
 }
 
 async function fetchDirectoryContents(relativePath) {

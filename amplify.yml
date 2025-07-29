@@ -3,9 +3,8 @@ frontend:
   phases:
     preBuild:
       commands:
-        - export CONTENT_GITHUB_TOKEN=$AWS_AMPLIFY_CONTENT_GITHUB_TOKEN
-        - 'echo "Debug: CONTENT_GITHUB_TOKEN is ${CONTENT_GITHUB_TOKEN:+SET}${CONTENT_GITHUB_TOKEN:-NOT SET}"'
         - npm ci
+        - 'export CONTENT_GITHUB_TOKEN=$(aws ssm get-parameter --name "/amplify/shared/${AWS_APP_ID}/CONTENT_GITHUB_TOKEN" --with-decryption --query "Parameter.Value" --output text 2>/dev/null) || echo "Failed to get token from SSM"'
         - npm run fetch-content
     build:
       commands:

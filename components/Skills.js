@@ -93,7 +93,8 @@ const skillGroups = [
   {
     title: 'AI',
     skills: [
-      { label: 'LLM Fine Tuning', icon: '/icon/etc/openai.svg' },
+      { label: 'Generative AI', icon: '/icon/etc/openai.svg' },
+      { label: 'LLM Fine Tuning', icon: '/icon/etc/wrench.svg' },
       { label: 'Prompt Engineering', icon: '/icon/etc/prompt.svg' },
       { label: 'RAG', icon: '/icon/etc/rag.svg' },
       { label: 'Neural Networks', icon: '/icon/etc/neural.svg' },

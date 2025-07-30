@@ -20,7 +20,7 @@ export default function About() {
         <h2 className="text-4xl font-light tracking-wide animate-slideInLeft">About Me</h2>
       </div>
       <div className="w-full h-px bg-gradient-to-r from-gray-700 via-gray-600/30 to-transparent mb-8 animate-slideInLeft" />
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
         <div className="flex justify-center lg:justify-start">
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition duration-300"></div>
@@ -37,12 +37,11 @@ export default function About() {
         <div className="lg:col-span-2 space-y-6">
           <div className="space-y-4">
             <p className="text-lg leading-relaxed text-gray-300">
-              Software Engineering leader with expertise in full stack development, cloud platforms, real-time distributed systems, and AI integration.
-              Proven ability to lead high-performing teams that deliver innovative solutions across enterprise-scale logistics operations.
-              Passionate about aligning software delivery with measurable business outcomes and mentoring future leaders.
+              I’m a software engineering leader with experience in full-stack development, cloud architecture, real-time distributed systems, and AI integration. 
+              I love building and leading high-performing teams that create innovative solutions and bringing them to scale; always with a focus on driving real business impact and helping others grow into strong leaders.
             </p>
             <p className="text-lg leading-relaxed text-gray-300">
-              Outside of my professional life, I leverage my entrepreneurial spirit as a multi-instrumentalist that plays in performance level groups.
+            Outside of work, I tap into my entrepreneurial side through music, performing as a multi-instrumentalist with a variety of groups.
             </p>
           </div>
           

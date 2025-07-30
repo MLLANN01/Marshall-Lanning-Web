@@ -29,25 +29,25 @@ export default function Home() {
               <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-gray-300">
                 Software Engineering Leader
               </h2>
-              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto px-4 sm:px-0">
-                Focused on AI integration, value-driven development, and modern software delivery practices. 
-                Leading high-performing teams that deliver innovative solutions across enterprise-scale operations.
+              <p className="text-lg sm:text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto px-4 sm:px-0">                
+                I drive technical strategy and lead teams that design and deliver systems built for scale, performance, and longevity. 
+                My leadership empowers engineering teams to innovate, own outcomes, and align deeply with business goals.
               </p>
             </div>
 
             {/* Key Highlights */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto mt-8 md:mt-12">
               <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 p-4 md:p-6 hover:border-gray-700 transition-all duration-300">
-                <div className="text-2xl md:text-3xl font-light text-blue-400 mb-2">$175M+</div>
-                <div className="text-gray-300 text-xs md:text-sm">Business Impact</div>
+                <div className="text-2xl md:text-3xl font-light text-blue-400 mb-2">Full Stack to Strategy+</div>
+                <div className="text-gray-300 text-xs md:text-sm">Backend, Data, Cloud, AI</div>
               </div>
               <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 p-4 md:p-6 hover:border-gray-700 transition-all duration-300">
-                <div className="text-2xl md:text-3xl font-light text-purple-400 mb-2">8+</div>
-                <div className="text-gray-300 text-xs md:text-sm">Years of Enterpise Software Delivery</div>
+                <div className="text-2xl md:text-3xl font-light text-purple-400 mb-2">8+ Years Experience</div>
+                <div className="text-gray-300 text-xs md:text-sm">Software Engineering</div>
               </div>
               <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 p-4 md:p-6 hover:border-gray-700 transition-all duration-300">
-                <div className="text-2xl md:text-3xl font-light text-green-400 mb-2">AI/ML</div>
-                <div className="text-gray-300 text-xs md:text-sm">Integration Expert</div>
+                <div className="text-2xl md:text-3xl font-light text-green-400 mb-2">Driving Outcomes</div>
+                <div className="text-gray-300 text-xs md:text-sm">Ops, Cost, Culture, Innovation</div>
               </div>
             </div>
 

@@ -20,7 +20,6 @@ export default function Projects() {
         { label: 'Tailwind', icon: '/icon/etc/tailwind.svg' },
         { label: 'AWS', icon: '/icon/etc/aws.svg' },
         { label: 'NextJS', icon: '/icon/etc/nextjs.svg' },
-        { label: 'GitHub Actions', icon: '/icon/etc/actions.svg' },
       ],
       githubUrl: 'https://github.com/MLLANN01/Marshall-Lanning-Web',
       liveUrl: 'https://marshalllanning.com',
@@ -48,7 +47,7 @@ export default function Projects() {
         { label: 'Java', icon: '/icon/etc/java.svg' },
         { label: 'Docker', icon: '/icon/etc/docker.svg' },
         { label: 'Prompt Engineering', icon: '/icon/etc/prompt.svg' },
-        { label: 'LLM Fine Tuning', icon: '/icon/etc/openai.svg' },
+        { label: 'LLM Fine Tuning', icon: '/icon/etc/wrench.svg' },
       ]
     },
     {

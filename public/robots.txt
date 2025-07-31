@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
+Crawl-delay: 0
 
+# Social media crawlers explicitly allowed
 User-agent: LinkedInBot
 Allow: /
 
@@ -9,5 +11,16 @@ Allow: /
 
 User-agent: Twitterbot
 Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# This is a personal blog and portfolio website
+# Author: Marshall Lanning
+# Purpose: Professional blog about software engineering and book reviews
+# Content: Technical articles, book reviews, and professional portfolio
 
 Sitemap: https://www.marshalllanning.com/sitemap.xml

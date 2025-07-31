@@ -15,14 +15,14 @@ export default function Experience() {
           experience={{
             company: "UPS",
             title: "Manager, Software Engineering",
-            product: "Network Planning and Optimization / AI Enablement",
+            product: "Transportation Management Systems",
             fromDate: "January 2023",
             toDate: "Present",
             companyLogo: "/icon/etc/ups.svg",
             description: "Lead multiple agile teams focused on delivering AI-enabled solutions and enterprise-scale software. Oversee engineering strategy, team performance, and cross-functional collaboration to drive product delivery, platform modernization, and workforce optimization.",
             achievements: [
-              "Developed a generative AI assistant for transportation auditing, improving operational insight and reducing investigation time by 20%.",
-              "Built autonomous agents using LangChain and Gemini to resolve yard and dispatching exceptions, resulting in $100M+ operational savings through back-office role consolidation.",
+              "Developed a generative AI assistant for transportation auditing leveraged for enhanced operational insight and reducing manual research efforts.",
+              "Built autonomous agents using LangChain and Gemini to resolve yard and dispatching exceptions, resulting in $10M+ operational savings through back-office role consolidation.",
               "Developed a proprietary optimization algorithm for workforce scheduling across UPS feeder operations, reducing planning time and unlocking $75M+ in efficiency gains."
             ],
             technologies: [
@@ -45,7 +45,7 @@ export default function Experience() {
             description: "Guided technical design and delivery of autonomous yard management systems. Led efforts in DevOps transformation and real-time data integration. Served as a hands-on leader fostering engineering excellence and operational scalability.",
             achievements: [
               "Engineered real-time ETL pipelines to ingest edge/IOT and system data into BigQuery, accelerating planning decisions and data accessibility.",
-              "Designed an automated yard control system that replaced 80% of manual routing decisions; design currently under patent review.",
+              "Designed an automated yard control system that replaced 70% of manual routing decisions; design currently under patent review.",
               "Championed DevOps modernization efforts that improved deployment frequency and cut cycle time by 40%.",
               "Mentored cross-level engineers and embedded best practices in CI/CD and infrastructure automation."
             ],
@@ -62,7 +62,7 @@ export default function Experience() {
           experience={{
             company: "UPS",
             title: "Senior Software Engineer",
-            product: "Smart Trailer and TMS Assets",
+            product: "Smart Trailer and TMS Asset Integration",
             fromDate: "Jun 2020",
             toDate: "Jul 2021",
             companyLogo: "/icon/etc/ups.svg",
@@ -129,7 +129,7 @@ export default function Experience() {
           experience={{
             company: "UPS",
             title: "Engineering Co-Op",
-            product: "Transportation Integration Systems",
+            product: "Transportation Systems Integration Services",
             fromDate: "Jan 2017",
             toDate: "Jun 2019",
             companyLogo: "/icon/etc/ups.svg",

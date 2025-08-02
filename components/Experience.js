@@ -46,7 +46,7 @@ export default function Experience() {
             achievements: [
               "Engineered real-time ETL pipelines to ingest edge/IOT and system data into BigQuery, accelerating planning decisions and data accessibility.",
               "Designed an automated yard control system that replaced 70% of manual routing decisions; design currently under patent review.",
-              "Championed DevOps modernization efforts that improved deployment frequency and cut cycle time by 40%.",
+              "Championed DevOps modernization efforts that improved deployment frequency and cut cycle time by 15%.",
               "Mentored cross-level engineers and embedded best practices in CI/CD and infrastructure automation."
             ],
             technologies: [

@@ -8,6 +8,9 @@ export default function VirtualBusinessCard({ isOpen, onClose }) {
   const [copiedEmail, setCopiedEmail] = useState(false)
   const [copiedPhone, setCopiedPhone] = useState(false)
 
+  const email = 'Marshall.Lanning.37@gmail.com'
+  const phone = '502-767-6013'
+
   const copyToClipboard = async (text, type) => {
     try {
       await navigator.clipboard.writeText(text)
@@ -59,12 +62,12 @@ export default function VirtualBusinessCard({ isOpen, onClose }) {
             {/* Email */}
             <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
               <div className="flex items-center justify-between">
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Email</p>
-                  <p className="text-white font-mono text-sm">Marshall.Lanning.37@gmail.com</p>
+                  <p className="text-white font-mono text-sm break-all">{email}</p>
                 </div>
                 <button
-                  onClick={() => copyToClipboard('Marshall.Lanning.37@gmail.com', 'email')}
+                  onClick={() => copyToClipboard(email, 'email')}
                   className="ml-3 p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
                   title="Copy email"
                 >
@@ -76,12 +79,12 @@ export default function VirtualBusinessCard({ isOpen, onClose }) {
             {/* Phone */}
             <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
               <div className="flex items-center justify-between">
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Phone</p>
-                  <p className="text-white font-mono text-sm">502-767-6013</p>
+                  <p className="text-white font-mono text-sm break-all">{phone}</p>
                 </div>
                 <button
-                  onClick={() => copyToClipboard('502-767-6013', 'phone')}
+                  onClick={() => copyToClipboard(phone, 'phone')}
                   className="ml-3 p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
                   title="Copy phone"
                 >

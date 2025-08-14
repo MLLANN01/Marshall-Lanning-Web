@@ -203,7 +203,7 @@ export default async function BookReview({ params }) {
                   className="w-full max-w-64 h-auto rounded-lg shadow-lg mx-auto md:mx-0"
                 />
               ) : (
-                <div className="w-full max-w-64 aspect-[2/3] bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg flex items-center justify-center mx-auto md:mx-0">
+                <div className="w-full max-w-64 aspect-[2/3] bg-gray-800 rounded-lg flex items-center justify-center mx-auto md:mx-0">
                   <div className="text-center p-6">
                     <div className="text-6xl mb-4">📚</div>
                     <div className="text-sm text-gray-500 font-medium">

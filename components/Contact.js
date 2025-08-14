@@ -7,7 +7,7 @@ export default function Contact() {
         <p className="text-sm text-gray-500 font-light tracking-widest uppercase mb-2">Connect With Me</p>
         <h2 className="text-4xl font-light tracking-wide animate-slideInLeft">Contact</h2>
       </div>
-      <div className="w-full h-px bg-gradient-to-r from-gray-700 to-transparent mb-8 animate-slideInLeft" />
+      <div className="w-full h-px bg-gray-700 mb-8 animate-slideInLeft" />
       <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 p-8 hover:border-gray-700 transition-all duration-300">
         <div className="text-center space-y-4">
           <p className="text-xl text-gray-300 font-light">Let's collaborate on your next project</p>

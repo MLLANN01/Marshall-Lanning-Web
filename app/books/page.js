@@ -89,7 +89,7 @@ export default async function BooksPage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
+                      <div className="w-full h-full flex items-center justify-center bg-gray-800">
                         <div className="text-center p-6">
                           <div className="text-4xl mb-2">📚</div>
                           <div className="text-sm text-gray-500 font-medium">

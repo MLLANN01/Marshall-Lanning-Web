@@ -30,7 +30,7 @@ export default function VirtualBusinessCard({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 max-w-md w-full relative border border-gray-700 shadow-2xl">
+      <div className="bg-gray-900 rounded-2xl p-8 max-w-md w-full relative border border-gray-700 shadow-2xl">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
@@ -41,7 +41,7 @@ export default function VirtualBusinessCard({ isOpen, onClose }) {
         <div className="text-center space-y-6">
           {/* Profile Image */}
           <div className="relative mx-auto w-24 h-24">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-60"></div>
+            <div className="absolute -inset-0.5 bg-blue-600 rounded-full blur opacity-60"></div>
             <Image
               src="/profile-square.png"
               alt="Marshall Lanning"

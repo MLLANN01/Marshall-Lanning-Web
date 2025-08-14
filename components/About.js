@@ -19,11 +19,11 @@ export default function About() {
         <p className="text-sm text-gray-500 font-light tracking-widest uppercase mb-2">Get to know me</p>
         <h2 className="text-4xl font-light tracking-wide animate-slideInLeft">About Me</h2>
       </div>
-      <div className="w-full h-px bg-gradient-to-r from-gray-700 via-gray-600/30 to-transparent mb-8 animate-slideInLeft" />
+      <div className="w-full h-px bg-gray-700 mb-8 animate-slideInLeft" />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
         <div className="flex justify-center lg:justify-start">
           <div className="relative group">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition duration-300"></div>
+            <div className="absolute -inset-0.5 bg-blue-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition duration-300"></div>
             <Image
               src="/profile-square.png"
               alt="Marshall Lanning"

@@ -97,7 +97,7 @@ export default function Projects() {
         <p className="text-sm text-gray-500 font-light tracking-widest uppercase mb-2">My Innovative Spirit</p>
         <h2 className="text-4xl font-light tracking-wide animate-slideInLeft">Projects</h2>
       </div>
-      <div className="w-full h-px bg-gradient-to-r from-gray-700 to-transparent mb-12 animate-slideInLeft" />
+      <div className="w-full h-px bg-gray-700 mb-12 animate-slideInLeft" />
       
       {/* GitHub Contributions */}
       <div className="mb-12">

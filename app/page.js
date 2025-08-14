@@ -19,9 +19,9 @@ export default function Home() {
             {/* Main Heading */}
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-6xl md:text-8xl font-light text-white leading-tight">
-                Marshall <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600">Lanning</span>
+                Marshall <span className="block text-blue-500">Lanning</span>
               </h1>
-              <div className="w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto rounded-full"></div>
+              <div className="w-32 h-1 bg-blue-500 mx-auto rounded-full"></div>
             </div>
 
             {/* Role & Description */}
@@ -42,7 +42,7 @@ export default function Home() {
                 <div className="text-gray-300 text-xs md:text-sm">Backend, Data, Cloud, AI</div>
               </div>
               <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 p-4 md:p-6 hover:border-gray-700 transition-all duration-300">
-                <div className="text-2xl md:text-3xl font-light text-purple-400 mb-2">8+ Years Experience</div>
+                <div className="text-2xl md:text-3xl font-light text-blue-400 mb-2">8+ Years Experience</div>
                 <div className="text-gray-300 text-xs md:text-sm">Software Engineering</div>
               </div>
               <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 p-4 md:p-6 hover:border-gray-700 transition-all duration-300">
@@ -55,7 +55,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6 md:pt-8 px-4 sm:px-0">
               <button 
                 onClick={() => setShowBusinessCard(true)}
-                className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-medium text-sm md:text-base"
+                className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-medium text-sm md:text-base"
               >
                 Get in Touch
               </button>

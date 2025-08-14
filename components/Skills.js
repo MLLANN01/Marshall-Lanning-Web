@@ -118,14 +118,14 @@ export default function Skills() {
         <p className="text-sm text-gray-500 font-light tracking-widest uppercase mb-2">Life Long Learning</p>
         <h2 className="text-4xl font-light tracking-wide animate-slideInLeft">Skills</h2>
       </div>
-      <div className="w-full h-px bg-gradient-to-r from-gray-700 to-transparent mb-8 animate-slideInLeft" />
+      <div className="w-full h-px bg-gray-700 mb-8 animate-slideInLeft" />
       <div className="space-y-10">
         {skillGroups.map((group, index) => (
           <div key={group.title} className="group animate-fadeIn" style={{ animationDelay: `${index * 100}ms` }}>
             <div className="mb-6">
               <div className="flex items-center gap-4 mb-4">
                 <h3 className="text-2xl font-light text-gray-200">{group.title}</h3>
-                <div className="flex-1 h-px bg-gradient-to-r from-gray-700 via-gray-600/50 to-transparent" />
+                <div className="flex-1 h-px bg-gray-700" />
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
                 {group.skills.map((skill) => (

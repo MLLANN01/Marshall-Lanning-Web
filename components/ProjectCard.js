@@ -5,21 +5,21 @@ import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa'
 
 export default function ProjectCard({ project }) {
   const typeColors = {
-    'Web': 'from-blue-600 to-cyan-600',
-    'Mobile': 'from-purple-600 to-pink-600',
-    'AI': 'from-green-600 to-emerald-600',
-    'Backend': 'from-orange-600 to-red-600',
-    'DevOps': 'from-gray-600 to-slate-600',
-    'Desktop': 'from-yellow-600 to-orange-600',
+    'Web': 'bg-blue-600',
+    'Mobile': 'bg-indigo-600',
+    'AI': 'bg-green-600',
+    'Backend': 'bg-orange-600',
+    'DevOps': 'bg-gray-600',
+    'Desktop': 'bg-yellow-600',
   }
 
-  const gradientClass = typeColors[project.type] || 'from-gray-600 to-gray-700'
+  const colorClass = typeColors[project.type] || 'bg-gray-600'
 
   return (
-    <div className="group bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 overflow-hidden hover:border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
+    <div className="group bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 overflow-hidden hover:border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
       <div className="relative h-56 overflow-hidden bg-gray-800">
         {project.image ? (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative">
+          <div className="w-full h-full flex items-center justify-center bg-gray-900 relative">
             <Image 
               src={project.image} 
               alt={project.title}
@@ -27,15 +27,15 @@ export default function ProjectCard({ project }) {
               height={224}
               className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500 p-4"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gray-900/20 pointer-events-none" />
           </div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
+          <div className="w-full h-full flex items-center justify-center bg-gray-800">
             <span className="text-gray-600 text-4xl font-light">{project.title[0]}</span>
           </div>
         )}
         <div className="absolute top-3 right-3">
-          <span className={`px-3 py-1 text-xs font-medium text-white rounded-full bg-gradient-to-r ${gradientClass}`}>
+          <span className={`px-3 py-1 text-xs font-medium text-white rounded-full ${colorClass}`}>
             {project.type}
           </span>
         </div>

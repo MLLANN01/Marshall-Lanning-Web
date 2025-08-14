@@ -45,13 +45,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} bg-black text-white min-h-screen relative overflow-x-hidden`}>
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/20 to-black pointer-events-none" />
-        <div 
-          className="absolute inset-0 opacity-5 pointer-events-none"
-          style={{
-            backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px)`
-          }}
-        />
         <Navbar />
         <main className="relative">
           {children}

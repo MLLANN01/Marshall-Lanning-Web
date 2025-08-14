@@ -12,7 +12,7 @@ export default function ExperienceCard({ experience, className = '' }) {
           <div className="w-20 h-20 flex items-center justify-center transition-colors duration-300">
             <Image src={experience.companyLogo} alt={experience.company} width={48} height={48} className="object-contain" />
           </div>
-          <div className="hidden md:block h-full w-px bg-gradient-to-b from-transparent via-gray-700 to-transparent mx-2 mt-4" />
+          <div className="hidden md:block h-full w-px bg-gray-700 mx-2 mt-4" />
         </div>
         {/* Title, Dates, Company, Product */}
         <div className="flex-1">
@@ -50,7 +50,7 @@ export default function ExperienceCard({ experience, className = '' }) {
       <div className="mt-8">
         <div className="flex items-center gap-4 mb-4">
           <span className="text-lg font-light text-gray-200">Technologies</span>
-          <div className="flex-1 h-px bg-gradient-to-r from-gray-700 via-gray-600 to-transparent" />
+          <div className="flex-1 h-px bg-gray-700" />
           <span className="text-xs text-gray-400 tracking-widest uppercase">{experience.technologies.length} Skills</span>
         </div>
         <div className="flex flex-wrap gap-4 justify-center">

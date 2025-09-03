@@ -23,7 +23,7 @@ export default function Experience() {
             achievements: [
               "Developed a generative AI assistant for transportation auditing leveraged for enhanced operational insight and reducing manual research efforts.",
               "Built autonomous agents using LangChain and Gemini to resolve yard and dispatching exceptions, resulting in $10M+ operational savings through back-office role consolidation.",
-              "Developed a proprietary optimization algorithm for workforce scheduling across UPS feeder operations, reducing planning time and unlocking $75M+ in efficiency gains."
+              "Developed a proprietary optimization algorithm for workforce scheduling across UPS feeder operations, reducing planning time and unlocking $50M+ in efficiency gains."
             ],
             technologies: [
               { label: "Gemini", icon: "/icon/etc/gemini.svg" },

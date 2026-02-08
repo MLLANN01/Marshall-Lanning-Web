@@ -1,13 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { FaLinkedin, FaGithub, FaSteam, FaSoundcloud, FaCalendarAlt, FaGift } from 'react-icons/fa'
+import { FaLinkedin, FaGithub, FaSoundcloud, FaCalendarAlt, FaGift } from 'react-icons/fa'
 
 export default function About() {
   const socialLinks = [
     { icon: FaLinkedin, href: 'https://www.linkedin.com/in/marshall-lanning', label: 'LinkedIn', color: 'hover:text-blue-400' },
     { icon: FaGithub, href: 'https://github.com/MLLANN01', label: 'GitHub', color: 'hover:text-gray-400' },
-    { icon: FaSteam, href: 'https://steamcommunity.com/id/MGLL414/', label: 'Steam', color: 'hover:text-gray-300' },
     { icon: FaGift, href: 'https://www.amazon.com/hz/wishlist/ls/1KF52VBDNKRT4?ref_=wl_share', label: 'Amazon Wish List', color: 'hover:text-yellow-400' },
     { icon: FaSoundcloud, href: 'https://soundcloud.com/user-723992281', label: 'SoundCloud', color: 'hover:text-orange-400' },
     { icon: FaCalendarAlt, href: '#contact', label: 'Book a Meeting', color: 'hover:text-green-400' },

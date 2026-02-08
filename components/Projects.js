@@ -88,6 +88,20 @@ export default function Projects() {
         { label: 'Azure', icon: '/icon/etc/azure.svg' }
       ],
       liveUrl: 'https://apps.apple.com/us/app/uofl-clinical-trials-mobile/id1586566178'
+    },
+    {
+      id: 7,
+      title: 'Azure DevOps Backlog Explorer',
+      type: 'DevOps',
+      description: 'VS Code extension for browsing, editing, and managing Azure DevOps work items directly within the IDE. Features hierarchical backlog views, drag-and-drop reparenting, and rich text editing.',
+      image: '/projects/AdoBacklogExplorer.png',
+      technologies: [
+        { label: 'TypeScript', icon: '/icon/etc/typescript.svg' },
+        { label: 'Azure DevOps', icon: '/icon/etc/azure-devops.svg' },
+        { label: 'Node.js', icon: '/icon/etc/node.svg' },
+      ],
+      githubUrl: 'https://github.com/MLLANN01/AzureDevOpsBacklog',
+      liveUrl: 'https://marketplace.visualstudio.com/publishers/MLLANN01'
     }
   ]
 

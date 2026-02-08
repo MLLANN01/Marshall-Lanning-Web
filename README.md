@@ -44,7 +44,7 @@ This is my professional portfolio website featuring:
 - Performance optimized with Next.js Image component
 
 ### 🌐 Social Integration
-- LinkedIn, GitHub, Steam, SoundCloud links
+- LinkedIn, GitHub, SoundCloud links
 - Social sharing buttons for blog posts
 - Contact form integration ready
 

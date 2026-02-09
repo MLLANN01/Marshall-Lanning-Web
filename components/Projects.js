@@ -102,6 +102,21 @@ export default function Projects() {
       ],
       githubUrl: 'https://github.com/MLLANN01/AzureDevOpsBacklog',
       liveUrl: 'https://marketplace.visualstudio.com/publishers/MLLANN01'
+    },
+    {
+      id: 8,
+      title: 'BrainDump',
+      type: 'AI',
+      description: 'VS Code extension that turns unstructured thoughts into organized files and action items. Features AI-powered two-pass processing, streaming review panel, and editable plans.',
+      image: '/projects/braindump.png',
+      technologies: [
+        { label: 'TypeScript', icon: '/icon/etc/typescript.svg' },
+        { label: 'VS Code', icon: '/icon/etc/vscode.svg' },
+        { label: 'Node.js', icon: '/icon/etc/node.svg' },
+        { label: 'AI/LLM', icon: '/icon/etc/neural.svg' },
+      ],
+      githubUrl: 'https://github.com/MLLANN01/BrainDump',
+      liveUrl: 'https://marketplace.visualstudio.com/publishers/MLLANN01'
     }
   ]
 
